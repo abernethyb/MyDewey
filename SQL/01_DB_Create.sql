@@ -25,7 +25,7 @@ CREATE TABLE [UserProfile] (
   [Username] nvarchar(255) NOT NULL,
   [FirstName] nvarchar(255),
   [LastName] nvarchar(255),
-  [Image] nvarchar(255),
+  [Image] nvarchar(4000),
   [Email] nvarchar(255) NOT NULL,
   [City] nvarchar(255) NOT NULL,
   [Region] nvarchar(255) NOT NULL
@@ -50,7 +50,7 @@ GO
 
 CREATE TABLE [Category] (
   [Id] integer PRIMARY KEY IDENTITY,
-  [Name] Varchar NOT NULL
+  [Name] nvarchar(255) NOT NULL
 )
 GO
 
@@ -60,7 +60,7 @@ CREATE TABLE [Item] (
   [CategoryId] integer NOT NULL,
   [Available] boolean,
   [Private] boolean,
-  [Image] nvarchar(255),
+  [Image] nvarchar(4000),
   [Name] nvarchar(255),
   [Author] nvarchar(255),
   [Maker] nvarchar(255),
@@ -75,7 +75,7 @@ CREATE TABLE [Checkout] (
   [Id] integer PRIMARY KEY IDENTITY,
   [UserProfileId] integer NOT NULL,
   [ItemId] integer NOT NULL,
-  [RequestDate] datetime,
+  [RequestDate] datetime NOT NULL,
   [CheckoutDate] datetime,
   [DueDate] datetime,
   [CheckinDate] datetime,
@@ -89,24 +89,26 @@ CREATE TABLE [CheckoutRemark] (
   [Id] integer PRIMARY KEY IDENTITY,
   [UserProfileId] integer NOT NULL,
   [CheckoutId] integer NOT NULL,
-  [Remark] nvarchar(255)
+  [Datetime] datetime NOT NULL,
+  [Image] nvarchar(4000),
+  [Remark] nvarchar(4000) NOT NULL
 )
 GO
 
-CREATE TABLE [Message] (
+CREATE TABLE [CheckoutMessage] (
   [Id] integer PRIMARY KEY IDENTITY,
   [UserProfileId] integer NOT NULL,
   [CheckoutId] integer NOT NULL,
-  [Datetime] datetime,
-  [Content] nvarchar(255)
+  [Datetime] datetime NOT NULL,
+  [Content] nvarchar(4000) NOT NULL
 )
 GO
 
 CREATE TABLE [AdminMessage] (
   [Id] integer PRIMARY KEY IDENTITY,
   [UserProfileId] integer NOT NULL,
-  [Datetime] datetime,
-  [Content] nvarchar(255)
+  [Datetime] datetime NOT NULL,
+  [Content] nvarchar(4000) NOT NULL
 )
 GO
 
@@ -122,7 +124,7 @@ GO
 ALTER TABLE [CheckoutRemark] ADD FOREIGN KEY ([CheckoutId]) REFERENCES [Checkout] ([Id])
 GO
 
-ALTER TABLE [Message] ADD FOREIGN KEY ([CheckoutId]) REFERENCES [Checkout] ([Id])
+ALTER TABLE [CheckoutMessage] ADD FOREIGN KEY ([CheckoutId]) REFERENCES [Checkout] ([Id])
 GO
 
 ALTER TABLE [Checkout] ADD FOREIGN KEY ([ItemId]) REFERENCES [Item] ([Id])
@@ -134,7 +136,7 @@ GO
 ALTER TABLE [CheckoutRemark] ADD FOREIGN KEY ([UserProfileId]) REFERENCES [UserProfile] ([Id])
 GO
 
-ALTER TABLE [Message] ADD FOREIGN KEY ([UserProfileId]) REFERENCES [UserProfile] ([Id])
+ALTER TABLE [CheckoutMessage] ADD FOREIGN KEY ([UserProfileId]) REFERENCES [UserProfile] ([Id])
 GO
 
 ALTER TABLE [Friend] ADD FOREIGN KEY ([RequestingUserProfileId]) REFERENCES [UserProfile] ([Id])
