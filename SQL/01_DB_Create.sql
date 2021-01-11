@@ -58,8 +58,8 @@ CREATE TABLE [Item] (
   [Id] integer PRIMARY KEY IDENTITY,
   [UserProfileId] integer NOT NULL,
   [CategoryId] integer NOT NULL,
-  [Available] boolean,
-  [Private] boolean,
+  [Available] bit NOT NULL,
+  [Private] bit NOT NULL,
   [Image] nvarchar(4000),
   [Name] nvarchar(255),
   [Author] nvarchar(255),
@@ -80,8 +80,8 @@ CREATE TABLE [Checkout] (
   [DueDate] datetime,
   [CheckinDate] datetime,
   [ReturnVerifiedDate] datetime,
-  [Declined] boolean,
-  [Hidden] boolean
+  [Declined] bit NOT NULL,
+  [Hidden] bit NOT NULL
 )
 GO
 
