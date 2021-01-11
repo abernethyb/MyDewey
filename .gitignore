@@ -340,5 +340,5 @@ ASALocalRun/
 healthchecksdb
 
 
-# ignoring appsettings.json file
-appsettings.json
+# ignoring appsettings.local.json file
+appsettings.local.json
