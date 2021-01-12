@@ -342,3 +342,4 @@ healthchecksdb
 
 # ignoring appsettings.local.json file
 appsettings.local.json
+appsettings.json
