@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MyDewey.Models;
 using MyDewey.Repositories;
 
 namespace MyDewey.Controllers
 {
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserProfileController : ControllerBase
@@ -19,10 +22,10 @@ namespace MyDewey.Controllers
             _userProfileRepository = userProfileRepository;
         }
 
-        [HttpGet("{firebaseId}")]
-        public IActionResult GetByFirebaseId(string firebaseId)
+        [HttpGet("{FirebaseUserId}")]
+        public IActionResult GetByFirebaseId(string FirebaseUserId)
         {
-            var userProfile = _userProfileRepository.GetByFirebaseId(firebaseId);
+            var userProfile = _userProfileRepository.GetByFirebaseId(FirebaseUserId);
             if (userProfile == null)
             {
                 return NotFound();
