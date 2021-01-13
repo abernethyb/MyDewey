@@ -11,12 +11,19 @@ using System.Threading.Tasks;
   [FirebaseUserId] nvarchar(28) NOT NULL,
 
   [UserTypeId] integer NOT NULL,
+
   [Username] nvarchar(255) NOT NULL,
+
   [FirstName] nvarchar(255),
+
   [LastName] nvarchar(255),
+
   [Image] nvarchar(4000),
+
   [Email] nvarchar(255) NOT NULL,
+
   [City] nvarchar(255) NOT NULL,
+
   [Region] nvarchar(255) NOT NULL
 )
  * */
@@ -32,5 +39,14 @@ namespace MyDewey.Models
         public string FirebaseUserId { get; set; }
 
         public int UserTypeId { get; set; }
+
+        public string UserName { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string ImageLocation { get; set; }
+        public string Email { get; set; }
+        public string City { get; set; }
+        public string Region { get; set; }
+
     }
 }

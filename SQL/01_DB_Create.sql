@@ -22,10 +22,10 @@ CREATE TABLE [UserProfile] (
   [Id] integer PRIMARY KEY IDENTITY,
   [FirebaseUserId] nvarchar(28) NOT NULL,
   [UserTypeId] integer NOT NULL,
-  [Username] nvarchar(255) NOT NULL,
+  [UserName] nvarchar(255) NOT NULL,
   [FirstName] nvarchar(255),
   [LastName] nvarchar(255),
-  [Image] nvarchar(4000),
+  [ImageLocation] nvarchar(4000),
   [Email] nvarchar(255) NOT NULL,
   [City] nvarchar(255) NOT NULL,
   [Region] nvarchar(255) NOT NULL
@@ -60,7 +60,7 @@ CREATE TABLE [Item] (
   [CategoryId] integer NOT NULL,
   [Available] bit NOT NULL,
   [Private] bit NOT NULL,
-  [Image] nvarchar(4000),
+  [ImageLocation] nvarchar(4000),
   [Name] nvarchar(255),
   [Author] nvarchar(255),
   [Maker] nvarchar(255),
@@ -90,7 +90,7 @@ CREATE TABLE [CheckoutRemark] (
   [UserProfileId] integer NOT NULL,
   [CheckoutId] integer NOT NULL,
   [Datetime] datetime NOT NULL,
-  [Image] nvarchar(4000),
+  [ImageLocation] nvarchar(4000),
   [Remark] nvarchar(4000) NOT NULL
 )
 GO
