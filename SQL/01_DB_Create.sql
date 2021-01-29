@@ -65,7 +65,7 @@ CREATE TABLE [Item] (
   [Maker] nvarchar(255),
   [Model] nvarchar(255),
   [YearMade] integer,
-  [notes] nvarchar(255),
+  [Notes] nvarchar(255),
   [ExternalId] nvarchar(255)
 )
 GO
