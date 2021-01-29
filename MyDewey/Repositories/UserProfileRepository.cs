@@ -19,7 +19,7 @@ namespace MyDewey.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    //SELECT Id, FirebaseUserId, UserTypeId, Username, FirstName, LastName, ImageLocation, Email, City, Region  FROM UserProfile
+                    //SELECT Id, FirebaseUserId, UserTypeId, Username, FirstName, LastName, ImageLocation, Email, PostalCode  FROM UserProfile
                     cmd.CommandText = @"
                         SELECT Id,
                                FirebaseUserId,
@@ -29,8 +29,7 @@ namespace MyDewey.Repositories
                                LastName,
                                ImageLocation,
                                Email,
-                               City,
-                               Region
+                               PostalCode
                                FROM UserProfile
                          WHERE FirebaseUserId = @FirebaseUserId;";
 
@@ -51,8 +50,7 @@ namespace MyDewey.Repositories
                             LastName = DbUtils.GetString(reader, "LastName"),
                             ImageLocation = DbUtils.GetString(reader, "ImageLocation"),
                             Email = DbUtils.GetString(reader, "Email"),
-                            City = DbUtils.GetString(reader, "City"),
-                            Region = DbUtils.GetString(reader, "Region")
+                            PostalCode = DbUtils.GetString(reader, "PostalCode")
 
                         };
                     }
@@ -78,8 +76,7 @@ namespace MyDewey.Repositories
                                LastName,
                                ImageLocation,
                                Email,
-                               City,
-                               Region
+                               PostalCode
                                )
                                OUTPUT INSERTED.ID
                                VALUES 
@@ -91,8 +88,7 @@ namespace MyDewey.Repositories
                                @LastName,
                                @ImageLocation,
                                @Email,
-                               @City,
-                               @Region 
+                               @PostalCode
                                )";
 
                     DbUtils.AddParameter(cmd, "@FirebaseUserId", userProfile.FirebaseUserId);
@@ -102,8 +98,7 @@ namespace MyDewey.Repositories
                     DbUtils.AddParameter(cmd, "@LastName", userProfile.LastName);
                     DbUtils.AddParameter(cmd, "@ImageLocation", userProfile.ImageLocation);
                     DbUtils.AddParameter(cmd, "@Email", userProfile.Email);
-                    DbUtils.AddParameter(cmd, "@City", userProfile.City);
-                    DbUtils.AddParameter(cmd, "@Region", userProfile.Region);
+                    DbUtils.AddParameter(cmd, "@PostalCode", userProfile.PostalCode);
 
                     userProfile.Id = (int)cmd.ExecuteScalar();
                 }

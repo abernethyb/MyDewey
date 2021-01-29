@@ -27,8 +27,7 @@ CREATE TABLE [UserProfile] (
   [LastName] nvarchar(255),
   [ImageLocation] nvarchar(4000),
   [Email] nvarchar(255) NOT NULL,
-  [City] nvarchar(255) NOT NULL,
-  [Region] nvarchar(255) NOT NULL
+  [PostalCode] nvarchar(255) NOT NULL
 )
 GO
 

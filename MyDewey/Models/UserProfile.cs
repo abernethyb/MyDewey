@@ -22,9 +22,7 @@ using System.Threading.Tasks;
 
   [Email] nvarchar(255) NOT NULL,
 
-  [City] nvarchar(255) NOT NULL,
-
-  [Region] nvarchar(255) NOT NULL
+  [PostalCode] nvarchar(255) NOT NULL
 )
  * */
 
@@ -45,8 +43,7 @@ namespace MyDewey.Models
         public string LastName { get; set; }
         public string ImageLocation { get; set; }
         public string Email { get; set; }
-        public string City { get; set; }
-        public string Region { get; set; }
+        public string PostalCode { get; set; }
 
     }
 }
