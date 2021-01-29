@@ -47,22 +47,23 @@ namespace MyDewey.Repositories
                     {
                         items.Add(new Item()
                         {
-                            Id = DbUtils.GetInt(reader, "Id")
-                            UserProfileId = DbUtils.GetInt(reader, "UserProfileId")
-                            OwnerUserName = DbUtils.GetString(reader, "OwnerUserName")
-                            CategoryId = DbUtils.GetInt(reader, "CategoryId")
-                            CategoryName = DbUtils.GetInt(reader, "Id")
-                            Available = DbUtils.GetInt(reader, "Id")
-                            Private = DbUtils.GetInt(reader, "Id")
-                            ImageLocation = DbUtils.GetInt(reader, "Id")
-                            Name = DbUtils.GetInt(reader, "Id")
-                            Author = DbUtils.GetInt(reader, "Id")
-                            Maker = DbUtils.GetInt(reader, "Id")
-                            Model = DbUtils.GetInt(reader, "Id")
-                            YearMade = DbUtils.GetInt(reader, "Id")
-                            Notes = DbUtils.GetInt(reader, "Id")
-                            ExternalId = DbUtils.GetInt(reader, "Id")
-                            
+                            Id = DbUtils.GetInt(reader, "Id"),
+                            UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
+                            OwnerUserName = DbUtils.GetString(reader, "OwnerUserName"),
+                            CategoryId = DbUtils.GetInt(reader, "CategoryId"),
+                            CategoryName = DbUtils.GetString(reader, "CategoryName"),
+                            Available = reader.GetBoolean(reader.GetOrdinal("Available")),
+                            Private = reader.GetBoolean(reader.GetOrdinal("Private")),
+                            OwnerPostalCode = DbUtils.GetString(reader, "OwnerPostalCode"),
+                            ImageLocation = DbUtils.GetString(reader, "ImageLocation"),
+                            Name = DbUtils.GetString(reader, "Name"),
+                            Author = DbUtils.GetString(reader, "Author"),
+                            Maker = DbUtils.GetString(reader, "Maker"),
+                            Model = DbUtils.GetString(reader, "Model"),
+                            YearMade = DbUtils.GetInt(reader, "YearMade"),
+                            Notes = DbUtils.GetString(reader, "Notes"),
+                            ExternalId = DbUtils.GetString(reader, "ExternalId")
+
                         });
                     }
 

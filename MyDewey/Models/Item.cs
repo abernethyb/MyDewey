@@ -50,7 +50,7 @@ namespace MyDewey.Models
 
         //only for frinds to see
         public bool Private { get; set; }
-
+        
         //from user profile
         public string OwnerPostalCode { get; set; }
         public string ImageLocation { get; set; }
