@@ -82,7 +82,7 @@ namespace MyDewey.Repositories
                                VALUES 
                                (
                                @FirebaseUserId,
-                               @UserTypeId,
+                               2,
                                @UserName,
                                @FirstName,
                                @LastName,
@@ -92,7 +92,7 @@ namespace MyDewey.Repositories
                                )";
 
                     DbUtils.AddParameter(cmd, "@FirebaseUserId", userProfile.FirebaseUserId);
-                    DbUtils.AddParameter(cmd, "@UserTypeId", userProfile.UserTypeId);
+                    //DbUtils.AddParameter(cmd, "@UserTypeId", userProfile.UserTypeId);
                     DbUtils.AddParameter(cmd, "@UserName", userProfile.UserName);
                     DbUtils.AddParameter(cmd, "@FirstName", userProfile.FirstName);
                     DbUtils.AddParameter(cmd, "@LastName", userProfile.LastName);

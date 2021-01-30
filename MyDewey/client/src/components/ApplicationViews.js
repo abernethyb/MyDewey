@@ -12,6 +12,7 @@ export default function ApplicationViews() {
         <main>
             <Switch>
 
+
                 {/* Auth */}
 
                 <Route path="/login">
