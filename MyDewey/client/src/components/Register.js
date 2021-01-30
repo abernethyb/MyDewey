@@ -10,18 +10,20 @@ export default function Register() {
     const [firstname, setFirstName] = useState();
     const [lastname, setLastName] = useState();
     const [username, setUsername] = useState();
+    //TODO:
+    //image here eventually ....
+    const [postalCode, setPostalCode] = useState();
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
     const [confirmPassword, setConfirmPassword] = useState();
-    //TODO:
-    //ADD REMAINING REGISTRATION FIELDS...
+
 
     const registerClick = (e) => {
         e.preventDefault();
         if (password && password !== confirmPassword) {
             alert("Passwords don't match. Please try again.");
         } else {
-            const userProfile = { firstname, lastname, username, email };
+            const userProfile = { firstname, lastname, username, postalCode, email };
             register(userProfile, password)
                 .then(() => history.push("/"));
         }
@@ -47,6 +49,10 @@ export default function Register() {
                                 <FormGroup>
                                     <Label htmlFor="username">Username</Label>
                                     <Input id="username" type="text" onChange={e => setUsername(e.target.value)} />
+                                </FormGroup>
+                                <FormGroup>
+                                    <Label htmlFor="postalCode">Postal Code</Label>
+                                    <Input id="postalCode" type="text" onChange={e => setPostalCode(e.target.value)} />
                                 </FormGroup>
                                 <FormGroup>
                                     <Label for="email">Email</Label>
