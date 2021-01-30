@@ -58,8 +58,7 @@ export default function Register() {
                                     <Label for="email">Email</Label>
                                     <Input id="email" type="text" onChange={e => setEmail(e.target.value)} />
                                 </FormGroup>
-                                {/* TODO:
-                                add remaining registration fields */}
+
                                 <FormGroup>
                                     <Label for="password">Password</Label>
                                     <Input id="password" type="password" onChange={e => setPassword(e.target.value)} />

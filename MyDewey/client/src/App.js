@@ -5,6 +5,7 @@ import { UserProfileProvider } from "./providers/UserProfileProvider";
 import './App.css';
 import Header from './components/Header';
 import ApplicationViews from './components/ApplicationViews';
+import { ItemProvider } from './providers/ItemProvider';
 
 
 
@@ -12,8 +13,10 @@ function App() {
   return (
     <Router>
       <UserProfileProvider>
-        <Header />
-        <ApplicationViews />
+        <ItemProvider>
+          <Header />
+          <ApplicationViews />
+        </ItemProvider>
       </UserProfileProvider>
     </Router>
 
