@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MyDewey.Repositories
 {
-    public class ItemRepository : BaseRepository
+    public class ItemRepository : BaseRepository, IItemRepository
     {
         public ItemRepository(IConfiguration configuration) : base(configuration) { }
 
@@ -70,6 +70,62 @@ namespace MyDewey.Repositories
                     reader.Close();
 
                     return items;
+                }
+            }
+        }
+
+        public void Add(Item item)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"INSERT INTO Item (
+	                                        UserProfileId,
+	                                        CategoryId,
+	                                        Available,
+	                                        Private,
+	                                        ImageLocation,
+	                                        Name,
+	                                        Author,
+	                                        Maker,
+	                                        Model,
+	                                        YearMade,
+	                                        Notes,
+	                                        ExternalId
+			                                          )
+	                                        OUTPUT INSERTED.ID
+
+	                                        VALUES (
+	                                        @UserProfileId,
+	                                        @CategoryId,
+	                                        @Available,
+	                                        @Private,
+	                                        @ImageLocation,
+	                                        @Name,
+	                                        @Author,
+	                                        @Maker,
+	                                        @Model,
+	                                        @YearMade,
+	                                        @Notes,
+	                                        @ExternalId
+			                                        );";
+
+                    DbUtils.AddParameter(cmd, "@UserProfileId", item.UserProfileId);
+                    DbUtils.AddParameter(cmd, "@CategoryId", item.CategoryId);
+                    DbUtils.AddParameter(cmd, "@Available", item.Available);
+                    DbUtils.AddParameter(cmd, "@Private", item.Private);
+                    DbUtils.AddParameter(cmd, "@ImageLocation", item.ImageLocation);
+                    DbUtils.AddParameter(cmd, "@Name", item.Name);
+                    DbUtils.AddParameter(cmd, "@Author", item.Author);
+                    DbUtils.AddParameter(cmd, "@Maker", item.Maker);
+                    DbUtils.AddParameter(cmd, "@Model", item.Model);
+                    DbUtils.AddParameter(cmd, "@YearMade", item.YearMade);
+                    DbUtils.AddParameter(cmd, "@Notes", item.Notes);
+                    DbUtils.AddParameter(cmd, "@ExternalId", item.ExternalId);
+
+                    item.Id = (int)cmd.ExecuteScalar();
                 }
             }
         }
