@@ -45,10 +45,27 @@ export const ItemProvider = (props) => {
             })
         );
     }
+    const addItem = (item) => {
+        return getToken().then((token) =>
+            fetch("/api/item", {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(item)
+            }).then(resp => {
+                if (resp.ok) {
+                    return resp.json();
+                } else {
+                    (history.push(`/unauthorized`));
+                }
+            }));
+    };
 
 
     return (
-        <ItemContext.Provider value={{ items, getAllItems, getUserItems }}>
+        <ItemContext.Provider value={{ items, getAllItems, getUserItems, addItem }}>
             {props.children}
         </ItemContext.Provider>
     );

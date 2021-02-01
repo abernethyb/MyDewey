@@ -14,13 +14,17 @@ export default function ApplicationViews() {
         <main>
             <Switch>
 
+                {/* "/" will change to dashboard view later */}
+
                 <Route path="/" exact>
                     {isLoggedIn ? <ItemList /> : <Redirect to="/login" />}
                 </Route>
-                {/* Auth */}
+
+                {/* Items */}
                 <Route path="/your_library" exact>
                     {isLoggedIn ? <UserItemList /> : <Redirect to="/login" />}
                 </Route>
+
                 {/* Auth */}
 
                 <Route path="/login" exact>
