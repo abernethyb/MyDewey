@@ -164,8 +164,8 @@ namespace MyDewey.Repositories
 	                                        VALUES (
 	                                        @UserProfileId,
 	                                        @CategoryId,
-	                                        @Available,
-	                                        @Private,
+	                                        1,
+	                                        0,
 	                                        @ImageLocation,
 	                                        @Name,
 	                                        @Author,
