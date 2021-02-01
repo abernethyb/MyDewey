@@ -27,10 +27,28 @@ export const ItemProvider = (props) => {
             })
         );
     }
+    const getUserItems = () => {
+        getToken().then((token) =>
+            fetch(`/api/item/UserItems`, {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }).then(resp => {
+                // if (resp.ok) {
+                return resp.json().then(setItems);
+                // } else {
+
+                //     (history.push(`/unauthorized`));
+                //     //throw new Error("Unauthorized")
+                // }
+            })
+        );
+    }
 
 
     return (
-        <ItemContext.Provider value={{ items, getAllItems, }}>
+        <ItemContext.Provider value={{ items, getAllItems, getUserItems }}>
             {props.children}
         </ItemContext.Provider>
     );

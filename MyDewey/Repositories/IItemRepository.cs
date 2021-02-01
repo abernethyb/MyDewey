@@ -7,5 +7,6 @@ namespace MyDewey.Repositories
     {
         void Add(Item item);
         List<Item> GetAllItems();
+        List<Item> GetUserItems(int userProfileId);
     }
 }
