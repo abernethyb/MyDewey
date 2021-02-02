@@ -283,7 +283,7 @@ namespace MyDewey.Repositories
 	                                        VALUES (
 	                                        @UserProfileId,
 	                                        @ItemId,
-	                                        @RequestDate,
+	                                        GETDATE(),
 	                                        NULL,
 	                                        NULL,
 	                                        NULL,
@@ -293,8 +293,7 @@ namespace MyDewey.Repositories
 			                                        );";
 
                     DbUtils.AddParameter(cmd, "@UserProfileId", checkout.UserProfileId);
-                    DbUtils.AddParameter(cmd, "@UserProfileId", checkout.ItemId);
-                    DbUtils.AddParameter(cmd, "@UserProfileId", checkout.RequestDate);
+                    DbUtils.AddParameter(cmd, "@ItemId", checkout.ItemId);
 
                     checkout.Id = (int)cmd.ExecuteScalar();
                 }
@@ -302,9 +301,95 @@ namespace MyDewey.Repositories
         }
 
         //put method to ApproveCheckout (and update "available" status of corresponding item)
+        public void ApproveCheckout(Checkout checkout)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        UPDATE Checkout
+                        SET CheckoutDate = GETDATE()
+                        WHERE Id = @checkoutId;
+
+                        UPDATE Item
+                        SET Available = 0
+                        WHERE Id = @itemId;";
+
+                    
+                    DbUtils.AddParameter(cmd, "@checkoutId", checkout.Id);
+                    DbUtils.AddParameter(cmd, "@itemId", checkout.ItemId);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
         //put method to DeclineCheckout
+        public void DeclineCheckout(Checkout checkout)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        UPDATE Checkout
+                        SET Declined = 1
+                        WHERE Id = @checkoutId;";
+
+
+                    DbUtils.AddParameter(cmd, "@checkoutId", checkout.Id);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
         //put method to ReturnItem
+        public void Checkin(Checkout checkout)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        UPDATE Checkout
+                        SET CheckinDate = GETDATE()
+                        WHERE Id = @checkoutId;";
+
+
+                    DbUtils.AddParameter(cmd, "@checkoutId", checkout.Id);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
         //put method to VerifyReturn (and update "available" status of corresponding item)
+        public void VerifyCheckin(Checkout checkout)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        UPDATE Checkout
+                        SET ReturnVerifiedDate = GETDATE()
+                        WHERE Id = @checkoutId;
+
+                        UPDATE Item
+                        SET Available = 1
+                        WHERE Id = @itemId;";
+
+
+                    DbUtils.AddParameter(cmd, "@checkoutId", checkout.Id);
+                    DbUtils.AddParameter(cmd, "@itemId", checkout.ItemId);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
 
     }
 }
