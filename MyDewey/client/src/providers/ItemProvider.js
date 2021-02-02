@@ -55,11 +55,13 @@ export const ItemProvider = (props) => {
                 },
                 body: JSON.stringify(item)
             }).then(resp => {
-                if (resp.ok) {
-                    return resp.json();
-                } else {
-                    (history.push(`/unauthorized`));
-                }
+                //TODO: 
+                //when api returns item as response
+                // if (resp.ok) {
+                //return resp.json();
+                // } else {
+                //     (history.push(`/unauthorized`));
+                // }
             }));
     };
 

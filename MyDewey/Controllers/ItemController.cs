@@ -52,6 +52,8 @@ namespace MyDewey.Controllers
         [HttpPost]
         public IActionResult Post(Item item)
         {
+            var currentUserProfile = GetCurrentUserProfile();
+            item.UserProfileId = currentUserProfile.Id;
             _itemRepository.Add(item);
             //For now...
             return Ok();

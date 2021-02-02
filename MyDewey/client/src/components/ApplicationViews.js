@@ -6,6 +6,7 @@ import Register from "./Register";
 import HiThere from "./HiThere";
 import ItemList from "./items/ItemListAll";
 import UserItemList from "./items/UserItemList";
+import AddItem from "./items/NewItemForm";
 
 export default function ApplicationViews() {
     const { isLoggedIn } = useContext(UserProfileContext);
@@ -23,6 +24,9 @@ export default function ApplicationViews() {
                 {/* Items */}
                 <Route path="/your_library" exact>
                     {isLoggedIn ? <UserItemList /> : <Redirect to="/login" />}
+                </Route>
+                <Route path="/your_library/new" exact>
+                    {isLoggedIn ? <AddItem /> : <Redirect to="/login" />}
                 </Route>
 
                 {/* Auth */}

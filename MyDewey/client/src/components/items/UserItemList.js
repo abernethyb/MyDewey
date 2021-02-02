@@ -26,8 +26,14 @@ const UserItemList = () => {
         <>
             <div className="container">
                 <div className="row justify-content-left">
-                    <h2>Public Library</h2>
+                    <h2>Your Library</h2>
                     <hr />
+
+                    <Link to="/your_library/new">
+                        <Button >
+                            Add Item
+                    </Button>
+                    </Link>
 
 
                     <Table>

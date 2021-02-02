@@ -3,6 +3,7 @@ import React, { useEffect, useContext, useState, useRef } from "react";
 import { useParams, useHistory, Link } from "react-router-dom";
 import { Button, CardImg, Form, Table, FormGroup, Label, Input } from "reactstrap";
 import { ItemContext } from "../../providers/ItemProvider";
+import "./item.css"
 
 
 const ItemList = () => {
@@ -25,9 +26,33 @@ const ItemList = () => {
     return (
         <>
             <div className="container">
+                <h2>Public Library</h2>
                 <div className="row justify-content-left">
-                    <h2>Public Library</h2>
+
+
                     <hr />
+                    {items.map((item) => (
+                        <div className="itemList">
+
+                            <div className="items" key={item.id}>
+                                {/* < Link to={`item detai page TODO`}> */}
+                                <p>Name: {item.name}</p>
+                                <p>Name: {item.name}</p>
+                                <p>Name: {item.name}</p>
+                                <p>Owner: {item.ownerUserName}</p>
+                                {/* <Image fluid rounded src={sample.image} alt={sample.name}></Image> */}
+
+                                {/* <ReactImageFallback
+                                width="100%"
+                                src={`/api/image/${item.image}`}
+                                fallbackImage={item.image}
+                                alt={sample.name} /> */}
+                                {/* </Link> */}
+
+                            </div>
+                        </div>
+                    ))
+                    }
 
 
                     <Table>

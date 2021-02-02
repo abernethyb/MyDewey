@@ -25,8 +25,9 @@ export default function Header() {
                 <Collapse isOpen={isOpen} navbar>
                     <Nav className="mr-auto" navbar>
                         {isLoggedIn &&
+
                             <NavItem>
-                                <NavLink tag={RRNavLink} to="/login">Login</NavLink>
+                                <NavLink tag={RRNavLink} to="/your_library/">Your Library</NavLink>
                             </NavItem>
                         }
                         {!isLoggedIn &&
