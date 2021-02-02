@@ -45,10 +45,47 @@ export const ItemProvider = (props) => {
             })
         );
     }
+    const getNonUserItems = () => {
+        getToken().then((token) =>
+            fetch(`/api/item/NonUserItems`, {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }).then(resp => {
+                // if (resp.ok) {
+                return resp.json().then(setItems);
+                // } else {
+
+                //     (history.push(`/unauthorized`));
+                //     //throw new Error("Unauthorized")
+                // }
+            })
+        );
+    }
+    const addItem = (item) => {
+        return getToken().then((token) =>
+            fetch("/api/item", {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(item)
+            }).then(resp => {
+                //TODO: 
+                //when api returns item as response
+                // if (resp.ok) {
+                //return resp.json();
+                // } else {
+                //     (history.push(`/unauthorized`));
+                // }
+            }));
+    };
 
 
     return (
-        <ItemContext.Provider value={{ items, getAllItems, getUserItems }}>
+        <ItemContext.Provider value={{ items, getAllItems, getUserItems, addItem, getNonUserItems }}>
             {props.children}
         </ItemContext.Provider>
     );
