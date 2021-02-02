@@ -258,5 +258,53 @@ namespace MyDewey.Repositories
             }
         }
 
+        //checkout request from borrower
+        public void RequestCheckout(Checkout checkout)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    
+                    cmd.CommandText = @"INSERT INTO Checkout (
+	                                        UserProfileId,
+	                                        ItemId,
+	                                        RequestDate,
+	                                        CheckoutDate,
+	                                        DueDate,
+	                                        CheckinDate,
+	                                        ReturnVerifiedDate,
+	                                        Declined,
+	                                        Hidden
+			                                          )
+	                                        OUTPUT INSERTED.ID
+
+	                                        VALUES (
+	                                        @UserProfileId,
+	                                        @ItemId,
+	                                        @RequestDate,
+	                                        NULL,
+	                                        NULL,
+	                                        NULL,
+	                                        NULL,
+	                                        0,
+	                                        0
+			                                        );";
+
+                    DbUtils.AddParameter(cmd, "@UserProfileId", checkout.UserProfileId);
+                    DbUtils.AddParameter(cmd, "@UserProfileId", checkout.ItemId);
+                    DbUtils.AddParameter(cmd, "@UserProfileId", checkout.RequestDate);
+
+                    checkout.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+        }
+
+        //put method to ApproveCheckout (and update "available" status of corresponding item)
+        //put method to DeclineCheckout
+        //put method to ReturnItem
+        //put method to VerifyReturn (and update "available" status of corresponding item)
+
     }
 }
