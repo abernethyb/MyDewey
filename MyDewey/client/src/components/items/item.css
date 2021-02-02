@@ -10,6 +10,7 @@
     width: 15rem;
     height: 25rem;
     
+    
 }
 
 .itemList {
@@ -20,4 +21,13 @@
     /* background-color: rgba(203, 243, 240, 0.6); */
     box-shadow: 0 4px 8px 0 rgba(0,0,0, 0.1);
     border-radius: 0.4rem;
+}
+
+.itemListTop {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    margin-left: 2rem;
+    color: rgba(72, 70, 69, 1);
+    font-family: 'Courier New', Courier, monospace;
 }

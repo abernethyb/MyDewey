@@ -49,6 +49,20 @@ namespace MyDewey.Controllers
             return Ok(items);
         }
 
+        [HttpGet("NonUserItems")]
+        public IActionResult GetNonUserItems()
+        {
+            var currentUserProfile = GetCurrentUserProfile();
+            int userProfileId = currentUserProfile.Id;
+            List<Item> items = _itemRepository.GetNonUserItems(userProfileId);
+            //auth for later
+            //if (userProfile == null)
+            //{
+            //    return NotFound();
+            //}
+            return Ok(items);
+        }
+
         [HttpPost]
         public IActionResult Post(Item item)
         {

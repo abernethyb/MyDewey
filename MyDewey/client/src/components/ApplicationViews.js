@@ -4,8 +4,8 @@ import { UserProfileContext } from "../providers/UserProfileProvider";
 import Login from "./Login";
 import Register from "./Register";
 import HiThere from "./HiThere";
-import ItemList from "./items/ItemListAll";
-import UserItemList from "./items/UserItemList";
+import ItemList from "./items/PublicLibrary";
+import UserItemList from "./items/PersonalLibrary";
 import AddItem from "./items/NewItemForm";
 
 export default function ApplicationViews() {
@@ -18,6 +18,9 @@ export default function ApplicationViews() {
                 {/* "/" will change to dashboard view later */}
 
                 <Route path="/" exact>
+                    {isLoggedIn ? <ItemList /> : <Redirect to="/login" />}
+                </Route>
+                <Route path="/public_library" exact>
                     {isLoggedIn ? <ItemList /> : <Redirect to="/login" />}
                 </Route>
 

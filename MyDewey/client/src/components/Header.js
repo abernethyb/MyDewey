@@ -25,10 +25,15 @@ export default function Header() {
                 <Collapse isOpen={isOpen} navbar>
                     <Nav className="mr-auto" navbar>
                         {isLoggedIn &&
+                            <>
+                                <NavItem>
+                                    <NavLink tag={RRNavLink} to="/public_library/">Public Library</NavLink>
+                                </NavItem>
+                                <NavItem>
+                                    <NavLink tag={RRNavLink} to="/your_library/">Your Library</NavLink>
+                                </NavItem>
 
-                            <NavItem>
-                                <NavLink tag={RRNavLink} to="/your_library/">Your Library</NavLink>
-                            </NavItem>
+                            </>
                         }
                         {!isLoggedIn &&
                             <>
