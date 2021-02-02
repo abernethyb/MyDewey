@@ -67,6 +67,7 @@ CREATE TABLE [Item] (
   [YearMade] integer,
   [Notes] nvarchar(255),
   [ExternalId] nvarchar(255)
+  [Hidden] bit NOT NULL DEFAULT 0
   [Flagdelete] bit NOT NULL DEFAULT 0
 )
 GO

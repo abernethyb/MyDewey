@@ -99,7 +99,7 @@ namespace MyDewey.Repositories
                                         FROM Item i
                                         Left Join UserProfile u ON i.UserProfileId = u.Id
                                         Left Join Category c ON i.CategoryId = c.Id
-                                        WHERE i.UserProfileId = @userProfileId";
+                                        WHERE i.UserProfileId = @userProfileId AND i.Flagdelete = 0";
 
                     DbUtils.AddParameter(cmd, "@userProfileId", userProfileId);
 
@@ -164,7 +164,7 @@ namespace MyDewey.Repositories
                                         FROM Item i
                                         Left Join UserProfile u ON i.UserProfileId = u.Id
                                         Left Join Category c ON i.CategoryId = c.Id
-                                        WHERE i.UserProfileId != @userProfileId";
+                                        WHERE i.UserProfileId != @userProfileId AND i.Flagdelete = 0 AND i.Available = 1";
 
                     DbUtils.AddParameter(cmd, "@userProfileId", userProfileId);
 
