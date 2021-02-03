@@ -9,7 +9,7 @@ import "./item.css"
 const ItemList = () => {
 
 
-    const { items, getNonUserItems } = useContext(ItemContext);
+    const { items, getNonUserItems, RequestCheckout } = useContext(ItemContext);
 
     const history = useHistory();
 
@@ -22,6 +22,8 @@ const ItemList = () => {
     if (!items) {
         return null;
     }
+
+
 
     return (
         <>
@@ -39,6 +41,9 @@ const ItemList = () => {
                         <p>Owner: {item.ownerUserName}</p>
                         <p>Category: {item.categoryName}</p>
                         <p>Location: {item.ownerPostalCode}</p>
+                        <Button color="info" onClick={(e) => { RequestCheckout(item.id) }}>
+                            Request Checkout
+                        </Button>
                         {/* <Image fluid rounded src={sample.image} alt={sample.name}></Image> */}
 
                         {/* <ReactImageFallback

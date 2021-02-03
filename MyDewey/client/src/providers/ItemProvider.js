@@ -82,10 +82,28 @@ export const ItemProvider = (props) => {
                 // }
             }));
     };
+    const RequestCheckout = (itemId) => {
+        return getToken().then((token) =>
+            fetch(`/api/item/requestCheckout/${itemId}`, {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                }
+            }).then(resp => {
+                //TODO: 
+                //when api returns item as response
+                // if (resp.ok) {
+                //return resp.json();
+                // } else {
+                //     (history.push(`/unauthorized`));
+                // }
+            }));
+    };
 
 
     return (
-        <ItemContext.Provider value={{ items, getAllItems, getUserItems, addItem, getNonUserItems }}>
+        <ItemContext.Provider value={{ items, getAllItems, getUserItems, addItem, getNonUserItems, RequestCheckout }}>
             {props.children}
         </ItemContext.Provider>
     );

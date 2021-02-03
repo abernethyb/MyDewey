@@ -259,7 +259,7 @@ namespace MyDewey.Repositories
         }
 
         //checkout request from borrower
-        public void RequestCheckout(Checkout checkout)
+        public void RequestCheckout(int userProfileId, int itemId)
         {
             using (var conn = Connection)
             {
@@ -292,15 +292,15 @@ namespace MyDewey.Repositories
 	                                        0
 			                                        );";
 
-                    DbUtils.AddParameter(cmd, "@UserProfileId", checkout.UserProfileId);
-                    DbUtils.AddParameter(cmd, "@ItemId", checkout.ItemId);
+                    DbUtils.AddParameter(cmd, "@UserProfileId", userProfileId);
+                    DbUtils.AddParameter(cmd, "@ItemId", itemId);
 
-                    checkout.Id = (int)cmd.ExecuteScalar();
+                    cmd.ExecuteScalar();
                 }
             }
         }
 
-        //put method to ApproveCheckout (and update "available" status of corresponding item)
+        //method to ApproveCheckout (and update "available" status of corresponding item)
         public void ApproveCheckout(Checkout checkout)
         {
             using (var conn = Connection)
@@ -316,8 +316,14 @@ namespace MyDewey.Repositories
                         UPDATE Item
                         SET Available = 0
                         WHERE Id = @itemId;";
+                    //possible TODO:
+                    //modify above command to handle multiple checkout requests
+                    //likely:
+                    //UPDATE Checkout
+                    //SET Declined = 1 
+                    //WHERE ItemId = @itemId AND Id != @checkoutId
+                    //or leave requests active to all the user to decide upon item return....thus building a queue...
 
-                    
                     DbUtils.AddParameter(cmd, "@checkoutId", checkout.Id);
                     DbUtils.AddParameter(cmd, "@itemId", checkout.ItemId);
 
@@ -325,7 +331,7 @@ namespace MyDewey.Repositories
                 }
             }
         }
-        //put method to DeclineCheckout
+        //method to DeclineCheckout
         public void DeclineCheckout(Checkout checkout)
         {
             using (var conn = Connection)
@@ -345,7 +351,7 @@ namespace MyDewey.Repositories
                 }
             }
         }
-        //put method to ReturnItem
+        //method to ReturnItem
         public void Checkin(Checkout checkout)
         {
             using (var conn = Connection)
@@ -365,7 +371,7 @@ namespace MyDewey.Repositories
                 }
             }
         }
-        //put method to VerifyReturn (and update "available" status of corresponding item)
+        //method to VerifyReturn (and update "available" status of corresponding item)
         public void VerifyCheckin(Checkout checkout)
         {
             using (var conn = Connection)
@@ -390,6 +396,9 @@ namespace MyDewey.Repositories
                 }
             }
         }
+
+        //SELECT method to get checkout requests 
+        //SELECT method to get active checkouts 
 
     }
 }

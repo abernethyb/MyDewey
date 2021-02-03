@@ -9,5 +9,6 @@ namespace MyDewey.Repositories
         List<Item> GetAllItems();
         List<Item> GetNonUserItems(int userProfileId);
         List<Item> GetUserItems(int userProfileId);
+        void RequestCheckout(int userProfileId, int itemId);
     }
 }
