@@ -398,6 +398,65 @@ namespace MyDewey.Repositories
         }
 
         //SELECT method to get checkout requests 
+        public List<Request> GetCheckoutRequests(int userProfileId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT c.Id,
+                                        c.UserProfileId AS BorrowerUserProfileId,
+                                        c.ItemId,
+                                        i.UserProfileId AS OwnerUserProfileId,
+                                        i.Name AS ItemName,
+                                        i.ImageLocation,
+                                        i.CategoryId,
+                                        cat.Name AS CategoryName,
+                                        u.UserName AS BorrowerUserName,
+                                        c.RequestDate
+                                        FROM Checkout c
+                                        LEFT JOIN UserProfile u ON c.UserProfileId = u.Id
+                                        LEFT JOIN Item i ON c.ItemId = i.Id
+                                        LEFT JOIN Category cat ON i.CategoryId = cat.Id
+                                        WHERE c.CheckoutDate is NULL AND c.Declined = 0 AND i.UserProfileId = userProfileId;";
+
+                    DbUtils.AddParameter(cmd, "@userProfileId", userProfileId);
+
+
+                    var reader = cmd.ExecuteReader();
+
+                    var requests = new List<Request>();
+                    while (reader.Read())
+                    {
+                        items.Add(new Item()
+                        {
+                            Id = DbUtils.GetInt(reader, "Id"),
+                            UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
+                            OwnerUserName = DbUtils.GetString(reader, "OwnerUserName"),
+                            CategoryId = DbUtils.GetInt(reader, "CategoryId"),
+                            CategoryName = DbUtils.GetString(reader, "CategoryName"),
+                            Available = reader.GetBoolean(reader.GetOrdinal("Available")),
+                            Private = reader.GetBoolean(reader.GetOrdinal("Private")),
+                            OwnerPostalCode = DbUtils.GetString(reader, "OwnerPostalCode"),
+                            ImageLocation = DbUtils.GetString(reader, "ImageLocation"),
+                            Name = DbUtils.GetString(reader, "Name"),
+                            Author = DbUtils.GetString(reader, "Author"),
+                            Maker = DbUtils.GetString(reader, "Maker"),
+                            Model = DbUtils.GetString(reader, "Model"),
+                            YearMade = DbUtils.GetInt(reader, "YearMade"),
+                            Notes = DbUtils.GetString(reader, "Notes"),
+                            ExternalId = DbUtils.GetString(reader, "ExternalId")
+
+                        });
+                    }
+
+                    reader.Close();
+
+                    return items;
+                }
+            }
+        }
         //SELECT method to get active checkouts 
 
     }
