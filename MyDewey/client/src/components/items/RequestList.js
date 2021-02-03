@@ -22,6 +22,7 @@ const RequestList = () => {
         return null;
     }
 
+
     return (
         <>
 
@@ -36,7 +37,9 @@ const RequestList = () => {
                     <div className="items" key={request.id}>
                         {/* < Link to={`item detai page TODO`}> */}
                         <p>Name: {request.itemName}</p>
-                        <p>Borrower: {request.BorrowerUserName}</p>
+                        <p>Borrower: {request.borrowerUserName}</p>
+                        <p>{`At ${new Date(request.requestDate).getHours() > 12 ? new Date(request.requestDate).getHours() - 12 : new Date(request.requestDate).getHours()}:${new Date(request.requestDate).getHours() > 12 ? new Date(request.requestDate).getMinutes() + " PM" : new Date(request.requestDate).getMinutes() + " AM"} on ${new Date(request.requestDate).getMonth() + 1}/${new Date(request.requestDate).getDate()}/${new Date(request.requestDate).getFullYear()}`}</p>
+
                         {/* <Image fluid rounded src={sample.image} alt={sample.name}></Image> */}
 
                         {/* <ReactImageFallback
