@@ -8,7 +8,7 @@ import { ItemContext } from "../../providers/ItemProvider";
 const RequestList = () => {
 
 
-    const { requests, getCheckoutRequests } = useContext(ItemContext);
+    const { requests, getCheckoutRequests, AddToCheckoutQueue } = useContext(ItemContext);
 
     const history = useHistory();
 
@@ -36,6 +36,7 @@ const RequestList = () => {
 
                     <div className="items" key={request.id}>
                         {/* < Link to={`item detai page TODO`}> */}
+                        {request.queueStartDate ? "IN QUEUE" : "Not in queue"}
                         <p>Name: {request.itemName}</p>
                         <p>Borrower: {request.borrowerUserName}</p>
                         <p>{`At ${new Date(request.requestDate).getHours() > 12 ? new Date(request.requestDate).getHours() - 12 : new Date(request.requestDate).getHours()}:${new Date(request.requestDate).getHours() > 12 ? new Date(request.requestDate).getMinutes() + " PM" : new Date(request.requestDate).getMinutes() + " AM"} on ${new Date(request.requestDate).getMonth() + 1}/${new Date(request.requestDate).getDate()}/${new Date(request.requestDate).getFullYear()}`}</p>
@@ -48,7 +49,15 @@ const RequestList = () => {
                                 fallbackImage={item.image}
                                 alt={sample.name} /> */}
                         {/* </Link> */}
-
+                        <Button>
+                            APPROVE
+                        </Button>
+                        <Button>
+                            DECLINE
+                        </Button>
+                        <Button color="info" onClick={(e) => { AddToCheckoutQueue(request.checkoutId) }}>
+                            Add to Queue
+                        </Button>
                     </div>
 
 

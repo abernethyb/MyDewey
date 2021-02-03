@@ -301,7 +301,7 @@ namespace MyDewey.Repositories
         }
 
         //method to ApproveCheckout (and update "available" status of corresponding item)
-        public void ApproveCheckout(Checkout checkout)
+        public void ApproveCheckout(int checkoutId, int itemId)
         {
             using (var conn = Connection)
             {
@@ -315,24 +315,23 @@ namespace MyDewey.Repositories
 
                         UPDATE Item
                         SET Available = 0
-                        WHERE Id = @itemId;";
-                    //possible TODO:
-                    //modify above command to handle multiple checkout requests
-                    //likely:
-                    //UPDATE Checkout
-                    //SET Declined = 1 
-                    //WHERE ItemId = @itemId AND Id != @checkoutId
-                    //or leave requests active to all the user to decide upon item return....thus building a queue...
+                        WHERE Id = @itemId;
+                    
+                        UPDATE Checkout
+                        SET Declined = 1 
+                        WHERE ItemId = @itemId AND Id != @checkoutId AND QueueStartDate is NULL;";
 
-                    DbUtils.AddParameter(cmd, "@checkoutId", checkout.Id);
-                    DbUtils.AddParameter(cmd, "@itemId", checkout.ItemId);
+                    
+
+                    DbUtils.AddParameter(cmd, "@checkoutId", checkoutId);
+                    DbUtils.AddParameter(cmd, "@itemId", itemId);
 
                     cmd.ExecuteNonQuery();
                 }
             }
         }
-        //method to DeclineCheckout
-        public void DeclineCheckout(Checkout checkout)
+        //method to DeclineCheckout ///
+        public void DeclineCheckout(int checkoutId)
         {
             using (var conn = Connection)
             {
@@ -345,14 +344,35 @@ namespace MyDewey.Repositories
                         WHERE Id = @checkoutId;";
 
 
-                    DbUtils.AddParameter(cmd, "@checkoutId", checkout.Id);
+                    DbUtils.AddParameter(cmd, "@checkoutId", checkoutId);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        //methid to add item to queue
+        public void AddToCheckoutQueue(int checkoutId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        UPDATE Checkout
+                        SET QueueStartDate = GETDATE()
+                        WHERE Id = @checkoutId;";
+
+
+                    DbUtils.AddParameter(cmd, "@checkoutId", checkoutId);
 
                     cmd.ExecuteNonQuery();
                 }
             }
         }
         //method to ReturnItem
-        public void Checkin(Checkout checkout)
+        public void Checkin(int checkoutId)
         {
             using (var conn = Connection)
             {
@@ -365,14 +385,14 @@ namespace MyDewey.Repositories
                         WHERE Id = @checkoutId;";
 
 
-                    DbUtils.AddParameter(cmd, "@checkoutId", checkout.Id);
+                    DbUtils.AddParameter(cmd, "@checkoutId", checkoutId);
 
                     cmd.ExecuteNonQuery();
                 }
             }
         }
         //method to VerifyReturn (and update "available" status of corresponding item)
-        public void VerifyCheckin(Checkout checkout)
+        public void VerifyCheckin(int checkoutId, int itemId)
         {
             using (var conn = Connection)
             {
@@ -389,8 +409,8 @@ namespace MyDewey.Repositories
                         WHERE Id = @itemId;";
 
 
-                    DbUtils.AddParameter(cmd, "@checkoutId", checkout.Id);
-                    DbUtils.AddParameter(cmd, "@itemId", checkout.ItemId);
+                    DbUtils.AddParameter(cmd, "@checkoutId", checkoutId);
+                    DbUtils.AddParameter(cmd, "@itemId", itemId);
 
                     cmd.ExecuteNonQuery();
                 }
@@ -415,12 +435,14 @@ namespace MyDewey.Repositories
                                         cat.Name AS CategoryName,
                                         u.UserName AS BorrowerUserName,
                                         u.ImageLocation AS BorrowerImageLocation,
-                                        c.RequestDate
+                                        c.RequestDate,
+                                        c.QueueStartDate
                                         FROM Checkout c
                                         LEFT JOIN UserProfile u ON c.UserProfileId = u.Id
                                         LEFT JOIN Item i ON c.ItemId = i.Id
                                         LEFT JOIN Category cat ON i.CategoryId = cat.Id
-                                        WHERE c.CheckoutDate is NULL AND c.Declined = 0 AND i.UserProfileId = @userProfileId;";
+                                        WHERE c.CheckoutDate is NULL AND c.Declined = 0 AND i.Available = 1 AND i.UserProfileId = @userProfileId
+                                        ORDER BY c.RequestDate;";
 
                     DbUtils.AddParameter(cmd, "@userProfileId", userProfileId);
 
@@ -443,6 +465,7 @@ namespace MyDewey.Repositories
                             BorrowerUserName = DbUtils.GetString(reader, "BorrowerUserName"),
                             BorrowerImageLocation = DbUtils.GetString(reader, "BorrowerImageLocation"),
                             RequestDate = DbUtils.GetDateTime(reader, "RequestDate"),
+                            QueueStartDate = DbUtils.GetNullableDateTime(reader, "QueueStartDate")
 
                         });
                     }

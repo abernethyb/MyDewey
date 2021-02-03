@@ -123,10 +123,27 @@ export const ItemProvider = (props) => {
             })
         );
     }
-
+    const AddToCheckoutQueue = (checkoutId) => {
+        return getToken().then((token) =>
+            fetch(`/api/item/AddToCheckoutQueue/${checkoutId}`, {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                }
+            }).then(resp => {
+                //TODO: 
+                //when api returns item as response
+                // if (resp.ok) {
+                //return resp.json();
+                // } else {
+                //     (history.push(`/unauthorized`));
+                // }
+            }));
+    };
 
     return (
-        <ItemContext.Provider value={{ items, requests, getAllItems, getUserItems, addItem, getNonUserItems, RequestCheckout, getCheckoutRequests }}>
+        <ItemContext.Provider value={{ items, requests, getAllItems, getUserItems, addItem, getNonUserItems, RequestCheckout, getCheckoutRequests, AddToCheckoutQueue }}>
             {props.children}
         </ItemContext.Provider>
     );

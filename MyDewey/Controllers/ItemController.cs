@@ -104,7 +104,20 @@ namespace MyDewey.Controllers
             return Ok(requests);
         }
 
-        
+        [HttpPost("AddToCheckoutQueue/{checkoutId}")]
+        public IActionResult AddToCheckoutQueue(int checkoutId)
+        {
+            //var currentUserProfile = GetCurrentUserProfile();
+
+            _itemRepository.AddToCheckoutQueue(checkoutId);
+            //For now...
+            return Ok();
+            //TODO:
+            //Replace the above "return OK()" with the following returne statement after making a get by id method...
+            //return CreatedAtAction("Get", new { id = item.Id }, item);
+        }
+
+
         //get current user profile
         private UserProfile GetCurrentUserProfile()
         {

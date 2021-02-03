@@ -39,5 +39,6 @@ c.RequestDate
         public string BorrowerUserName { get; set; }
         public string BorrowerImageLocation { get; set; }
         public DateTime RequestDate { get; set; }
+        public DateTime? QueueStartDate { get; set; }
     }
 }
