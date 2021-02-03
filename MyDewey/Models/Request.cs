@@ -33,10 +33,11 @@ c.RequestDate
         public int ItemId { get; set; }
         public int OwnerUserProfileId { get; set; }
         public string ItemName { get; set; }
-        public string ImageLocation { get; set; }
+        public string ItemImageLocation { get; set; }
         public int CategoryId { get; set; }
         public string CategoryName { get; set; }
         public string BorrowerUserName { get; set; }
+        public string BorrowerImageLocation { get; set; }
         public DateTime RequestDate { get; set; }
     }
 }

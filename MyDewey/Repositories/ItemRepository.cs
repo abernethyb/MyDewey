@@ -410,10 +410,11 @@ namespace MyDewey.Repositories
                                         c.ItemId,
                                         i.UserProfileId AS OwnerUserProfileId,
                                         i.Name AS ItemName,
-                                        i.ImageLocation,
+                                        i.ImageLocation AS ItemImageLocation,
                                         i.CategoryId,
                                         cat.Name AS CategoryName,
                                         u.UserName AS BorrowerUserName,
+                                        u.ImageLocation AS BorrowerImageLocation,
                                         c.RequestDate
                                         FROM Checkout c
                                         LEFT JOIN UserProfile u ON c.UserProfileId = u.Id
@@ -429,31 +430,26 @@ namespace MyDewey.Repositories
                     var requests = new List<Request>();
                     while (reader.Read())
                     {
-                        items.Add(new Item()
+                        requests.Add(new Request()
                         {
-                            Id = DbUtils.GetInt(reader, "Id"),
-                            UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
-                            OwnerUserName = DbUtils.GetString(reader, "OwnerUserName"),
+                            CheckoutId = DbUtils.GetInt(reader, "Id"),
+                            BorrowerUserProfileId = DbUtils.GetInt(reader, "BorrowerUserProfileId"),
+                            ItemId = DbUtils.GetInt(reader, "ItemId"),
+                            OwnerUserProfileId = DbUtils.GetInt(reader, "OwnerUserProfileId"),
+                            ItemName = DbUtils.GetString(reader, "ItemName"),
+                            ItemImageLocation = DbUtils.GetString(reader, "ItemImageLocation"),
                             CategoryId = DbUtils.GetInt(reader, "CategoryId"),
                             CategoryName = DbUtils.GetString(reader, "CategoryName"),
-                            Available = reader.GetBoolean(reader.GetOrdinal("Available")),
-                            Private = reader.GetBoolean(reader.GetOrdinal("Private")),
-                            OwnerPostalCode = DbUtils.GetString(reader, "OwnerPostalCode"),
-                            ImageLocation = DbUtils.GetString(reader, "ImageLocation"),
-                            Name = DbUtils.GetString(reader, "Name"),
-                            Author = DbUtils.GetString(reader, "Author"),
-                            Maker = DbUtils.GetString(reader, "Maker"),
-                            Model = DbUtils.GetString(reader, "Model"),
-                            YearMade = DbUtils.GetInt(reader, "YearMade"),
-                            Notes = DbUtils.GetString(reader, "Notes"),
-                            ExternalId = DbUtils.GetString(reader, "ExternalId")
+                            BorrowerUserName = DbUtils.GetString(reader, "BorrowerUserName"),
+                            BorrowerImageLocation = DbUtils.GetString(reader, "BorrowerImageLocation"),
+                            RequestDate = DbUtils.GetDateTime(reader, "RequestDate"),
 
                         });
                     }
 
                     reader.Close();
 
-                    return items;
+                    return requests;
                 }
             }
         }
