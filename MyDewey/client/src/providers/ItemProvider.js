@@ -6,6 +6,7 @@ export const ItemContext = React.createContext();
 
 export const ItemProvider = (props) => {
     const [items, setItems] = useState([]);
+    const [requests, setRequests] = useState([]);
     const { getToken } = useContext(UserProfileContext);
     const history = useHistory();
 
@@ -82,6 +83,9 @@ export const ItemProvider = (props) => {
                 // }
             }));
     };
+
+    //Checkout Handling //
+
     const RequestCheckout = (itemId) => {
         return getToken().then((token) =>
             fetch(`/api/item/requestCheckout/${itemId}`, {
@@ -101,9 +105,28 @@ export const ItemProvider = (props) => {
             }));
     };
 
+    const getCheckoutRequests = () => {
+        getToken().then((token) =>
+            fetch(`/api/item/CheckoutRequests`, {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }).then(resp => {
+                // if (resp.ok) {
+                return resp.json().then(setRequests);
+                // } else {
+
+                //     (history.push(`/unauthorized`));
+                //     //throw new Error("Unauthorized")
+                // }
+            })
+        );
+    }
+
 
     return (
-        <ItemContext.Provider value={{ items, getAllItems, getUserItems, addItem, getNonUserItems, RequestCheckout }}>
+        <ItemContext.Provider value={{ items, requests, getAllItems, getUserItems, addItem, getNonUserItems, RequestCheckout, getCheckoutRequests }}>
             {props.children}
         </ItemContext.Provider>
     );

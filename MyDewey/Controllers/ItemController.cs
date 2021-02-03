@@ -75,6 +75,9 @@ namespace MyDewey.Controllers
             //Replace the above "return OK()" with the following returne statement after making a get by id method...
             //return CreatedAtAction("Get", new { id = item.Id }, item);
         }
+
+        //Checkout handling //
+
         [HttpPost("requestCheckout/{itemId}")]
         public IActionResult RequestCheckout(int itemId)
         {
@@ -87,7 +90,22 @@ namespace MyDewey.Controllers
             //Replace the above "return OK()" with the following returne statement after making a get by id method...
             //return CreatedAtAction("Get", new { id = item.Id }, item);
         }
+        [HttpGet("CheckoutRequests")]
+        public IActionResult GetCheckoutRequests()
+        {
+            var currentUserProfile = GetCurrentUserProfile();
+            int userProfileId = currentUserProfile.Id;
+            List<Request> requests = _itemRepository.GetCheckoutRequests(userProfileId);
+            //auth for later
+            //if (userProfile == null)
+            //{
+            //    return NotFound();
+            //}
+            return Ok(requests);
+        }
 
+        
+        //get current user profile
         private UserProfile GetCurrentUserProfile()
         {
             var firebaseId = User.FindFirst(ClaimTypes.NameIdentifier).Value;

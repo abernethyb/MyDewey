@@ -420,7 +420,7 @@ namespace MyDewey.Repositories
                                         LEFT JOIN UserProfile u ON c.UserProfileId = u.Id
                                         LEFT JOIN Item i ON c.ItemId = i.Id
                                         LEFT JOIN Category cat ON i.CategoryId = cat.Id
-                                        WHERE c.CheckoutDate is NULL AND c.Declined = 0 AND i.UserProfileId = userProfileId;";
+                                        WHERE c.CheckoutDate is NULL AND c.Declined = 0 AND i.UserProfileId = @userProfileId;";
 
                     DbUtils.AddParameter(cmd, "@userProfileId", userProfileId);
 

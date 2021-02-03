@@ -7,6 +7,7 @@ import HiThere from "./HiThere";
 import ItemList from "./items/PublicLibrary";
 import UserItemList from "./items/PersonalLibrary";
 import AddItem from "./items/NewItemForm";
+import RequestList from "./items/RequestList";
 
 export default function ApplicationViews() {
     const { isLoggedIn } = useContext(UserProfileContext);
@@ -18,7 +19,7 @@ export default function ApplicationViews() {
                 {/* "/" will change to dashboard view later */}
 
                 <Route path="/" exact>
-                    {isLoggedIn ? <ItemList /> : <Redirect to="/login" />}
+                    {isLoggedIn ? <RequestList /> : <Redirect to="/login" />}
                 </Route>
                 <Route path="/public_library" exact>
                     {isLoggedIn ? <ItemList /> : <Redirect to="/login" />}
