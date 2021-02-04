@@ -8,7 +8,7 @@ import { ItemContext } from "../../providers/ItemProvider";
 const BorrowViewCheckoutList = () => {
 
 
-    const { borrowViews, GetBorrowerViewCheckout } = useContext(ItemContext);
+    const { borrowViews, GetBorrowerViewCheckout, Checkin } = useContext(ItemContext);
 
     const history = useHistory();
 
@@ -50,7 +50,7 @@ const BorrowViewCheckoutList = () => {
                                 fallbackImage={item.image}
                                 alt={sample.name} /> */}
                                 {/* </Link> */}
-                                <Button>
+                                <Button onClick={(e) => { Checkin(borrow.checkoutId) }}>
                                     Return
                                 </Button>
 

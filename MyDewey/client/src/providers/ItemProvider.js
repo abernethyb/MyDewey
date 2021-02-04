@@ -197,6 +197,24 @@ export const ItemProvider = (props) => {
                 // }
             }));
     };
+    const Checkin = (checkoutId) => {
+        return getToken().then((token) =>
+            fetch(`/api/item/Checkin/${checkoutId}`, {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                }
+            }).then(resp => {
+                //TODO: 
+                //when api returns item as response
+                // if (resp.ok) {
+                //return resp.json();
+                // } else {
+                //     (history.push(`/unauthorized`));
+                // }
+            }));
+    };
     const ApproveCheckout = (checkoutId, itemId) => {
         return getToken().then((token) =>
             fetch(`/api/item/ApproveCheckout/${checkoutId}/${itemId}`, {
@@ -217,7 +235,7 @@ export const ItemProvider = (props) => {
     };
 
     return (
-        <ItemContext.Provider value={{ items, requests, borrowViews, lenderViews, getAllItems, getUserItems, addItem, getNonUserItems, RequestCheckout, getCheckoutRequests, AddToCheckoutQueue, RemoveFromCheckoutQueue, ApproveCheckout, GetBorrowerViewCheckout, GetLenderViewCheckout }}>
+        <ItemContext.Provider value={{ items, requests, borrowViews, lenderViews, getAllItems, getUserItems, addItem, getNonUserItems, RequestCheckout, getCheckoutRequests, AddToCheckoutQueue, RemoveFromCheckoutQueue, ApproveCheckout, GetBorrowerViewCheckout, GetLenderViewCheckout, Checkin }}>
             {props.children}
         </ItemContext.Provider>
     );

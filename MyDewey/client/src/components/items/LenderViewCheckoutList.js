@@ -75,11 +75,11 @@ const LenderViewCheckoutList = () => {
 
                                 <Button>
                                     Verify Return
-                                    </Button>
-                                    :
-                                    <Button>
+                                </Button>
+                                :
+                                <Button>
                                     Message (coming soon)
-                                    </Button>
+                                </Button>
 
 
                             </div>

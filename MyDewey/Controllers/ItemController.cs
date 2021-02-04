@@ -156,6 +156,19 @@ namespace MyDewey.Controllers
             //return CreatedAtAction("Get", new { id = item.Id }, item);
         }
 
+        [HttpPost("Checkin/{checkoutId}")]
+        public IActionResult Checkin(int checkoutId)
+        {
+            //var currentUserProfile = GetCurrentUserProfile();
+
+            _itemRepository.Checkin(checkoutId);
+            //For now...
+            return Ok();
+            //TODO:
+            //Replace the above "return OK()" with the following returne statement after making a get by id method...
+            //return CreatedAtAction("Get", new { id = item.Id }, item);
+        }
+
         [HttpPost("ApproveCheckout/{checkoutId}/{itemId}")]
         public IActionResult ApproveCheckout(int checkoutId, int itemId)
         {
