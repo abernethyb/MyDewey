@@ -7,6 +7,7 @@ export const ItemContext = React.createContext();
 export const ItemProvider = (props) => {
     const [items, setItems] = useState([]);
     const [requests, setRequests] = useState([]);
+    const [borrowViews, setBorrowViews] = useState([]);
     const { getToken } = useContext(UserProfileContext);
     const history = useHistory();
 
@@ -123,6 +124,24 @@ export const ItemProvider = (props) => {
             })
         );
     }
+    const GetBorrowerViewCheckout = () => {
+        getToken().then((token) =>
+            fetch(`/api/item/BorrowerViewCheckout`, {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }).then(resp => {
+                // if (resp.ok) {
+                return resp.json().then(setBorrowViews);
+                // } else {
+
+                //     (history.push(`/unauthorized`));
+                //     //throw new Error("Unauthorized")
+                // }
+            })
+        );
+    }
     const AddToCheckoutQueue = (checkoutId) => {
         return getToken().then((token) =>
             fetch(`/api/item/AddToCheckoutQueue/${checkoutId}`, {
@@ -159,9 +178,27 @@ export const ItemProvider = (props) => {
                 // }
             }));
     };
+    const ApproveCheckout = (checkoutId, itemId) => {
+        return getToken().then((token) =>
+            fetch(`/api/item/ApproveCheckout/${checkoutId}/${itemId}`, {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                }
+            }).then(resp => {
+                //TODO: 
+                //when api returns item as response
+                // if (resp.ok) {
+                //return resp.json();
+                // } else {
+                //     (history.push(`/unauthorized`));
+                // }
+            }));
+    };
 
     return (
-        <ItemContext.Provider value={{ items, requests, getAllItems, getUserItems, addItem, getNonUserItems, RequestCheckout, getCheckoutRequests, AddToCheckoutQueue, RemoveFromCheckoutQueue }}>
+        <ItemContext.Provider value={{ items, requests, borrowViews, getAllItems, getUserItems, addItem, getNonUserItems, RequestCheckout, getCheckoutRequests, AddToCheckoutQueue, RemoveFromCheckoutQueue, ApproveCheckout, GetBorrowerViewCheckout }}>
             {props.children}
         </ItemContext.Provider>
     );

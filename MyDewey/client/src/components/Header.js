@@ -32,6 +32,12 @@ export default function Header() {
                                 <NavItem>
                                     <NavLink tag={RRNavLink} to="/your_library/">Your Library</NavLink>
                                 </NavItem>
+                                <NavItem>
+                                    <NavLink tag={RRNavLink} to="/requests/">Requests</NavLink>
+                                </NavItem>
+                                <NavItem>
+                                    <NavLink tag={RRNavLink} to="/currently_borrowing/">Borrowing</NavLink>
+                                </NavItem>
 
                             </>
                         }

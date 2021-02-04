@@ -11,6 +11,7 @@ namespace MyDewey.Repositories
         void Checkin(int checkoutId);
         void DeclineCheckout(int checkoutId);
         List<Item> GetAllItems();
+        List<BorrowerCheckoutView> GetBorrowerViewCheckout(int userProfileId);
         List<Request> GetCheckoutRequests(int userProfileId);
         List<Item> GetNonUserItems(int userProfileId);
         List<Item> GetUserItems(int userProfileId);

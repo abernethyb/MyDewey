@@ -8,6 +8,7 @@ import ItemList from "./items/PublicLibrary";
 import UserItemList from "./items/PersonalLibrary";
 import AddItem from "./items/NewItemForm";
 import RequestList from "./items/RequestList";
+import BorrowViewCheckoutList from "./items/BorrowViewCheckoutList";
 
 export default function ApplicationViews() {
     const { isLoggedIn } = useContext(UserProfileContext);
@@ -18,14 +19,21 @@ export default function ApplicationViews() {
 
                 {/* "/" will change to dashboard view later */}
 
+                {/* Items */}
                 <Route path="/" exact>
+                    {isLoggedIn ? <RequestList /> : <Redirect to="/login" />}
+                </Route>
+                <Route path="/requests" exact>
                     {isLoggedIn ? <RequestList /> : <Redirect to="/login" />}
                 </Route>
                 <Route path="/public_library" exact>
                     {isLoggedIn ? <ItemList /> : <Redirect to="/login" />}
                 </Route>
+                <Route path="/currently_borrowing" exact>
+                    {isLoggedIn ? <BorrowViewCheckoutList /> : <Redirect to="/login" />}
+                </Route>
 
-                {/* Items */}
+
                 <Route path="/your_library" exact>
                     {isLoggedIn ? <UserItemList /> : <Redirect to="/login" />}
                 </Route>

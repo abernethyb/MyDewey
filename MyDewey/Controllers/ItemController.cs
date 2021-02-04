@@ -104,6 +104,19 @@ namespace MyDewey.Controllers
             return Ok(requests);
         }
 
+        [HttpGet("BorrowerViewCheckout")]
+        public IActionResult GetBorrowerViewCheckout()
+        {
+            var currentUserProfile = GetCurrentUserProfile();
+            int userProfileId = currentUserProfile.Id;
+            List<BorrowerCheckoutView> requests = _itemRepository.GetBorrowerViewCheckout(userProfileId);
+            //auth for later
+            //if (userProfile == null)
+            //{
+            //    return NotFound();
+            //}
+            return Ok(requests);
+        }
         [HttpPost("AddToCheckoutQueue/{checkoutId}")]
         public IActionResult AddToCheckoutQueue(int checkoutId)
         {
@@ -122,6 +135,19 @@ namespace MyDewey.Controllers
             //var currentUserProfile = GetCurrentUserProfile();
 
             _itemRepository.RemoveFromCheckoutQueue(checkoutId);
+            //For now...
+            return Ok();
+            //TODO:
+            //Replace the above "return OK()" with the following returne statement after making a get by id method...
+            //return CreatedAtAction("Get", new { id = item.Id }, item);
+        }
+
+        [HttpPost("ApproveCheckout/{checkoutId}/{itemId}")]
+        public IActionResult ApproveCheckout(int checkoutId, int itemId)
+        {
+            //var currentUserProfile = GetCurrentUserProfile();
+
+            _itemRepository.ApproveCheckout(checkoutId, itemId);
             //For now...
             return Ok();
             //TODO:

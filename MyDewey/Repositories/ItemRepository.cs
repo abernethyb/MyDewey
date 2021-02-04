@@ -305,6 +305,8 @@ namespace MyDewey.Repositories
         {
             using (var conn = Connection)
             {
+                //TODO:
+                //Assign Due Date
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
@@ -494,6 +496,70 @@ namespace MyDewey.Repositories
                     reader.Close();
 
                     return requests;
+                }
+            }
+        }
+
+        //SELECT method to get checkout requests 
+        public List<BorrowerCheckoutView> GetBorrowerViewCheckout(int userProfileId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT c.Id,
+                                        c.UserProfileId AS BorrowerUserProfileId,
+                                        c.ItemId,
+                                        i.UserProfileId AS OwnerUserProfileId,
+                                        i.Name AS ItemName,
+                                        i.ImageLocation AS ItemImageLocation,
+                                        i.CategoryId,
+                                        cat.Name AS CategoryName,
+                                        u.UserName AS OwnerUserName,
+                                        u.ImageLocation AS OwnerImageLocation,
+                                        c.RequestDate,
+                                        c.CheckoutDate,
+                                        c.DueDate,
+                                        c.Declined
+                                        FROM Checkout c
+                                        LEFT JOIN Item i ON c.ItemId = i.Id
+                                        LEFT JOIN UserProfile u ON i.UserProfileId = u.Id
+                                        LEFT JOIN Category cat ON i.CategoryId = cat.Id
+                                        WHERE c.CheckinDate IS NULL AND c.Hidden = 0 AND c.UserProfileId = @userProfileId
+                                        ORDER BY c.DueDate;";
+
+                    DbUtils.AddParameter(cmd, "@userProfileId", userProfileId);
+
+
+                    var reader = cmd.ExecuteReader();
+
+                    var borrowerCheckoutViews = new List<BorrowerCheckoutView>();
+                    while (reader.Read())
+                    {
+                        borrowerCheckoutViews.Add(new BorrowerCheckoutView()
+                        {
+                            CheckoutId = DbUtils.GetInt(reader, "Id"),
+                            BorrowerUserProfileId = DbUtils.GetInt(reader, "BorrowerUserProfileId"),
+                            ItemId = DbUtils.GetInt(reader, "ItemId"),
+                            OwnerUserProfileId = DbUtils.GetInt(reader, "OwnerUserProfileId"),
+                            ItemName = DbUtils.GetString(reader, "ItemName"),
+                            ItemImageLocation = DbUtils.GetString(reader, "ItemImageLocation"),
+                            CategoryId = DbUtils.GetInt(reader, "CategoryId"),
+                            CategoryName = DbUtils.GetString(reader, "CategoryName"),
+                            OwnerUserName = DbUtils.GetString(reader, "OwnerUserName"),
+                            OwnerImageLocation = DbUtils.GetString(reader, "OwnerImageLocation"),
+                            RequestDate = DbUtils.GetDateTime(reader, "RequestDate"),
+                            CheckoutDate = DbUtils.GetNullableDateTime(reader, "CheckoutDate"),
+                            DueDate = DbUtils.GetNullableDateTime(reader, "OwnerImageLocation"),
+                            Declined = reader.GetBoolean(reader.GetOrdinal("Declined"))
+
+                        });
+                    }
+
+                    reader.Close();
+
+                    return borrowerCheckoutViews;
                 }
             }
         }
