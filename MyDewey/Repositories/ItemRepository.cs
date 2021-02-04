@@ -312,7 +312,8 @@ namespace MyDewey.Repositories
                 {
                     cmd.CommandText = @"
                         UPDATE Checkout
-                        SET CheckoutDate = GETDATE()
+                        SET CheckoutDate = GETDATE(),
+                        DueDate = DATEADD(WEEK, 2, GETDATE())
                         WHERE Id = @checkoutId;
 
                         UPDATE Item
@@ -551,7 +552,7 @@ namespace MyDewey.Repositories
                             OwnerImageLocation = DbUtils.GetString(reader, "OwnerImageLocation"),
                             RequestDate = DbUtils.GetDateTime(reader, "RequestDate"),
                             CheckoutDate = DbUtils.GetNullableDateTime(reader, "CheckoutDate"),
-                            DueDate = DbUtils.GetNullableDateTime(reader, "OwnerImageLocation"),
+                            DueDate = DbUtils.GetNullableDateTime(reader, "DueDate"),
                             Declined = reader.GetBoolean(reader.GetOrdinal("Declined"))
 
                         });
