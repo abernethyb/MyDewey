@@ -9,6 +9,7 @@ import UserItemList from "./items/PersonalLibrary";
 import AddItem from "./items/NewItemForm";
 import RequestList from "./items/RequestList";
 import BorrowViewCheckoutList from "./items/BorrowViewCheckoutList";
+import LenderViewCheckoutList from "./items/LenderViewCheckoutList";
 
 export default function ApplicationViews() {
     const { isLoggedIn } = useContext(UserProfileContext);
@@ -31,6 +32,9 @@ export default function ApplicationViews() {
                 </Route>
                 <Route path="/currently_borrowing" exact>
                     {isLoggedIn ? <BorrowViewCheckoutList /> : <Redirect to="/login" />}
+                </Route>
+                <Route path="/currently_lending" exact>
+                    {isLoggedIn ? <LenderViewCheckoutList /> : <Redirect to="/login" />}
                 </Route>
 
 

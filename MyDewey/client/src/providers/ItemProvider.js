@@ -8,6 +8,7 @@ export const ItemProvider = (props) => {
     const [items, setItems] = useState([]);
     const [requests, setRequests] = useState([]);
     const [borrowViews, setBorrowViews] = useState([]);
+    const [lenderViews, setLenderViews] = useState([]);
     const { getToken } = useContext(UserProfileContext);
     const history = useHistory();
 
@@ -142,6 +143,24 @@ export const ItemProvider = (props) => {
             })
         );
     }
+    const GetLenderViewCheckout = () => {
+        getToken().then((token) =>
+            fetch(`/api/item/LenderViewCheckout`, {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }).then(resp => {
+                // if (resp.ok) {
+                return resp.json().then(setLenderViews);
+                // } else {
+
+                //     (history.push(`/unauthorized`));
+                //     //throw new Error("Unauthorized")
+                // }
+            })
+        );
+    }
     const AddToCheckoutQueue = (checkoutId) => {
         return getToken().then((token) =>
             fetch(`/api/item/AddToCheckoutQueue/${checkoutId}`, {
@@ -198,7 +217,7 @@ export const ItemProvider = (props) => {
     };
 
     return (
-        <ItemContext.Provider value={{ items, requests, borrowViews, getAllItems, getUserItems, addItem, getNonUserItems, RequestCheckout, getCheckoutRequests, AddToCheckoutQueue, RemoveFromCheckoutQueue, ApproveCheckout, GetBorrowerViewCheckout }}>
+        <ItemContext.Provider value={{ items, requests, borrowViews, lenderViews, getAllItems, getUserItems, addItem, getNonUserItems, RequestCheckout, getCheckoutRequests, AddToCheckoutQueue, RemoveFromCheckoutQueue, ApproveCheckout, GetBorrowerViewCheckout, GetLenderViewCheckout }}>
             {props.children}
         </ItemContext.Provider>
     );

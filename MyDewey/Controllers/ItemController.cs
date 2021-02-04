@@ -104,18 +104,32 @@ namespace MyDewey.Controllers
             return Ok(requests);
         }
 
-        [HttpGet("BorrowerViewCheckout")]
-        public IActionResult GetBorrowerViewCheckout()
+        [HttpGet("LenderViewCheckout")]
+        public IActionResult GetLenderViewCheckout()
         {
             var currentUserProfile = GetCurrentUserProfile();
             int userProfileId = currentUserProfile.Id;
-            List<BorrowerCheckoutView> requests = _itemRepository.GetBorrowerViewCheckout(userProfileId);
+            List<LenderCheckoutView> lenderCheckoutView = _itemRepository.GetLenderViewCheckout(userProfileId);
             //auth for later
             //if (userProfile == null)
             //{
             //    return NotFound();
             //}
-            return Ok(requests);
+            return Ok(lenderCheckoutView);
+        }
+
+        [HttpGet("BorrowerViewCheckout")]
+        public IActionResult GetBorrowerViewCheckout()
+        {
+            var currentUserProfile = GetCurrentUserProfile();
+            int userProfileId = currentUserProfile.Id;
+            List<BorrowerCheckoutView> borrowerCheckoutViews = _itemRepository.GetBorrowerViewCheckout(userProfileId);
+            //auth for later
+            //if (userProfile == null)
+            //{
+            //    return NotFound();
+            //}
+            return Ok(borrowerCheckoutViews);
         }
         [HttpPost("AddToCheckoutQueue/{checkoutId}")]
         public IActionResult AddToCheckoutQueue(int checkoutId)

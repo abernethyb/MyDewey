@@ -502,6 +502,70 @@ namespace MyDewey.Repositories
         }
 
         //SELECT method to get checkout requests 
+        public List<LenderCheckoutView> GetLenderViewCheckout(int userProfileId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT c.Id,
+                                        c.UserProfileId AS BorrowerUserProfileId,
+                                        c.ItemId,
+                                        i.UserProfileId AS OwnerUserProfileId,
+                                        i.Name AS ItemName,
+                                        i.ImageLocation AS ItemImageLocation,
+                                        i.CategoryId,
+                                        cat.Name AS CategoryName,
+                                        u.UserName AS BorrowerUserName,
+                                        u.ImageLocation AS BorrowerImageLocation,
+                                        c.RequestDate,
+                                        c.CheckoutDate,
+                                        c.DueDate,
+                                        c.CheckinDate
+                                        FROM Checkout c
+                                        LEFT JOIN UserProfile u ON c.UserProfileId = u.Id
+                                        LEFT JOIN Item i ON c.ItemId = i.Id
+                                        LEFT JOIN Category cat ON i.CategoryId = cat.Id
+                                        WHERE c.ReturnVerifiedDate IS NULL AND c.CheckoutDate IS NOT NULL AND i.UserProfileId = @userProfileId
+                                        ORDER BY c.RequestDate;";
+
+                    DbUtils.AddParameter(cmd, "@userProfileId", userProfileId);
+
+
+                    var reader = cmd.ExecuteReader();
+
+                    var lenderCheckoutViews = new List<LenderCheckoutView>();
+                    while (reader.Read())
+                    {
+                        lenderCheckoutViews.Add(new LenderCheckoutView()
+                        {
+                            CheckoutId = DbUtils.GetInt(reader, "Id"),
+                            BorrowerUserProfileId = DbUtils.GetInt(reader, "BorrowerUserProfileId"),
+                            ItemId = DbUtils.GetInt(reader, "ItemId"),
+                            OwnerUserProfileId = DbUtils.GetInt(reader, "OwnerUserProfileId"),
+                            ItemName = DbUtils.GetString(reader, "ItemName"),
+                            ItemImageLocation = DbUtils.GetString(reader, "ItemImageLocation"),
+                            CategoryId = DbUtils.GetInt(reader, "CategoryId"),
+                            CategoryName = DbUtils.GetString(reader, "CategoryName"),
+                            BorrowerUserName = DbUtils.GetString(reader, "BorrowerUserName"),
+                            BorrowerImageLocation = DbUtils.GetString(reader, "BorrowerImageLocation"),
+                            RequestDate = DbUtils.GetDateTime(reader, "RequestDate"),
+                            CheckoutDate = DbUtils.GetNullableDateTime(reader, "CheckoutDate"),
+                            DueDate = DbUtils.GetNullableDateTime(reader, "DueDate"),
+                            CheckinDate = DbUtils.GetNullableDateTime(reader, "CheckinDate")
+
+                        });
+                    }
+
+                    reader.Close();
+
+                    return lenderCheckoutViews;
+                }
+            }
+        }
+
+        //SELECT method to get checkout requests 
         public List<BorrowerCheckoutView> GetBorrowerViewCheckout(int userProfileId)
         {
             using (var conn = Connection)

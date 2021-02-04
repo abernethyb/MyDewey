@@ -38,6 +38,9 @@ export default function Header() {
                                 <NavItem>
                                     <NavLink tag={RRNavLink} to="/currently_borrowing/">Borrowing</NavLink>
                                 </NavItem>
+                                <NavItem>
+                                    <NavLink tag={RRNavLink} to="/currently_lending/">Lending</NavLink>
+                                </NavItem>
 
                             </>
                         }
