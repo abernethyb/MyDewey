@@ -50,9 +50,13 @@ const BorrowViewCheckoutList = () => {
                                 fallbackImage={item.image}
                                 alt={sample.name} /> */}
                                 {/* </Link> */}
-                                <Button onClick={(e) => { Checkin(borrow.checkoutId) }}>
-                                    Return
+                                {!borrow.checkinDate ?
+                                    <Button onClick={(e) => { Checkin(borrow.checkoutId) }}>
+                                        Return
                                 </Button>
+                                    :
+                                    <p>Awaiting return verification.  Returned on {borrow.checkinDate}</p>
+                                }
 
                             </div>
                             :

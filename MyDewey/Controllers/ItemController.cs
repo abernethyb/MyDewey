@@ -182,6 +182,19 @@ namespace MyDewey.Controllers
             //return CreatedAtAction("Get", new { id = item.Id }, item);
         }
 
+        [HttpPost("VerifyCheckin/{checkoutId}/{itemId}")]
+        public IActionResult VerifyCheckin(int checkoutId, int itemId)
+        {
+            //var currentUserProfile = GetCurrentUserProfile();
+
+            _itemRepository.VerifyCheckin(checkoutId, itemId);
+            //For now...
+            return Ok();
+            //TODO:
+            //Replace the above "return OK()" with the following returne statement after making a get by id method...
+            //return CreatedAtAction("Get", new { id = item.Id }, item);
+        }
+
 
         //get current user profile
         private UserProfile GetCurrentUserProfile()

@@ -8,7 +8,7 @@ import { ItemContext } from "../../providers/ItemProvider";
 const LenderViewCheckoutList = () => {
 
 
-    const { lenderViews, GetLenderViewCheckout } = useContext(ItemContext);
+    const { lenderViews, GetLenderViewCheckout, VerifyCheckin } = useContext(ItemContext);
 
     const history = useHistory();
 
@@ -73,10 +73,9 @@ const LenderViewCheckoutList = () => {
                                 alt={sample.name} /> */}
                                 {/* </Link> */}
 
-                                <Button>
+                                <Button onClick={(e) => { VerifyCheckin(lend.checkoutId, lend.itemId) }}>
                                     Verify Return
                                 </Button>
-                                :
                                 <Button>
                                     Message (coming soon)
                                 </Button>

@@ -20,6 +20,7 @@ namespace MyDewey.Models
         public DateTime? RequestDate { get; set; }
         public DateTime? CheckoutDate { get; set; }
         public DateTime? DueDate { get; set; }
+        public DateTime? CheckinDate { get; set; }
         public bool Declined { get; set; }
     }
 }

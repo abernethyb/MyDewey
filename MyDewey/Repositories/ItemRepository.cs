@@ -586,12 +586,13 @@ namespace MyDewey.Repositories
                                         c.RequestDate,
                                         c.CheckoutDate,
                                         c.DueDate,
+                                        c.CheckinDate,
                                         c.Declined
                                         FROM Checkout c
                                         LEFT JOIN Item i ON c.ItemId = i.Id
                                         LEFT JOIN UserProfile u ON i.UserProfileId = u.Id
                                         LEFT JOIN Category cat ON i.CategoryId = cat.Id
-                                        WHERE c.CheckinDate IS NULL AND c.Hidden = 0 AND c.UserProfileId = @userProfileId
+                                        WHERE c.ReturnVerifiedDate IS NULL AND c.Hidden = 0 AND c.UserProfileId = @userProfileId
                                         ORDER BY c.DueDate;";
 
                     DbUtils.AddParameter(cmd, "@userProfileId", userProfileId);
@@ -617,6 +618,7 @@ namespace MyDewey.Repositories
                             RequestDate = DbUtils.GetDateTime(reader, "RequestDate"),
                             CheckoutDate = DbUtils.GetNullableDateTime(reader, "CheckoutDate"),
                             DueDate = DbUtils.GetNullableDateTime(reader, "DueDate"),
+                            CheckinDate = DbUtils.GetNullableDateTime(reader, "CheckinDate"),
                             Declined = reader.GetBoolean(reader.GetOrdinal("Declined"))
 
                         });
