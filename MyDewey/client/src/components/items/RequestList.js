@@ -8,7 +8,7 @@ import { ItemContext } from "../../providers/ItemProvider";
 const RequestList = () => {
 
 
-    const { requests, getCheckoutRequests, AddToCheckoutQueue } = useContext(ItemContext);
+    const { requests, getCheckoutRequests, AddToCheckoutQueue, RemoveFromCheckoutQueue } = useContext(ItemContext);
 
     const history = useHistory();
 
@@ -33,31 +33,73 @@ const RequestList = () => {
                 </div>
 
                 {requests.map((request) => (
+                    <div key={request.id}>
+                        {
+                            !request.queueStartDate ?
+                                <div className="items" >
+                                    {/* < Link to={`item detai page TODO`}> */}
+                                    {request.queueStartDate && "IN QUEUE"}
+                                    <p>Name: {request.itemName}</p>
+                                    <p>Borrower: {request.borrowerUserName}</p>
+                                    <p>{`At ${new Date(request.requestDate).getHours() > 12 ? new Date(request.requestDate).getHours() - 12 : new Date(request.requestDate).getHours()}:${new Date(request.requestDate).getHours() > 12 ? new Date(request.requestDate).getMinutes() + " PM" : new Date(request.requestDate).getMinutes() + " AM"} on ${new Date(request.requestDate).getMonth() + 1}/${new Date(request.requestDate).getDate()}/${new Date(request.requestDate).getFullYear()}`}</p>
 
-                    <div className="items" key={request.id}>
-                        {/* < Link to={`item detai page TODO`}> */}
-                        {request.queueStartDate ? "IN QUEUE" : "Not in queue"}
-                        <p>Name: {request.itemName}</p>
-                        <p>Borrower: {request.borrowerUserName}</p>
-                        <p>{`At ${new Date(request.requestDate).getHours() > 12 ? new Date(request.requestDate).getHours() - 12 : new Date(request.requestDate).getHours()}:${new Date(request.requestDate).getHours() > 12 ? new Date(request.requestDate).getMinutes() + " PM" : new Date(request.requestDate).getMinutes() + " AM"} on ${new Date(request.requestDate).getMonth() + 1}/${new Date(request.requestDate).getDate()}/${new Date(request.requestDate).getFullYear()}`}</p>
+                                    {/* <Image fluid rounded src={sample.image} alt={sample.name}></Image> */}
 
-                        {/* <Image fluid rounded src={sample.image} alt={sample.name}></Image> */}
-
-                        {/* <ReactImageFallback
+                                    {/* <ReactImageFallback
                                 width="100%"
                                 src={`/api/image/${item.image}`}
                                 fallbackImage={item.image}
                                 alt={sample.name} /> */}
-                        {/* </Link> */}
-                        <Button>
-                            APPROVE
+                                    {/* </Link> */}
+                                    <Button>
+                                        APPROVE
                         </Button>
-                        <Button>
-                            DECLINE
+                                    <Button>
+                                        DECLINE
                         </Button>
-                        <Button color="info" onClick={(e) => { AddToCheckoutQueue(request.checkoutId) }}>
-                            Add to Queue
+                                    {!request.queueStartDate ?
+                                        <Button color="info" onClick={(e) => { AddToCheckoutQueue(request.checkoutId) }}>
+                                            Add to Queue
                         </Button>
+                                        :
+                                        <Button color="info" onClick={(e) => { RemoveFromCheckoutQueue(request.checkoutId) }}>
+                                            Remove From Queue
+                        </Button>
+                                    }
+                                </div>
+                                :
+                                <div className="requestQueue" key={request.id}>
+                                    {/* < Link to={`item detai page TODO`}> */}
+                                    {request.queueStartDate && "IN QUEUE"}
+                                    <p>Name: {request.itemName}</p>
+                                    <p>Borrower: {request.borrowerUserName}</p>
+                                    <p>{`At ${new Date(request.requestDate).getHours() > 12 ? new Date(request.requestDate).getHours() - 12 : new Date(request.requestDate).getHours()}:${new Date(request.requestDate).getHours() > 12 ? new Date(request.requestDate).getMinutes() + " PM" : new Date(request.requestDate).getMinutes() + " AM"} on ${new Date(request.requestDate).getMonth() + 1}/${new Date(request.requestDate).getDate()}/${new Date(request.requestDate).getFullYear()}`}</p>
+
+                                    {/* <Image fluid rounded src={sample.image} alt={sample.name}></Image> */}
+
+                                    {/* <ReactImageFallback
+                                width="100%"
+                                src={`/api/image/${item.image}`}
+                                fallbackImage={item.image}
+                                alt={sample.name} /> */}
+                                    {/* </Link> */}
+                                    <Button>
+                                        APPROVE
+                        </Button>
+                                    <Button>
+                                        DECLINE
+                        </Button>
+                                    {!request.queueStartDate ?
+                                        <Button color="info" onClick={(e) => { AddToCheckoutQueue(request.checkoutId) }}>
+                                            Add to Queue
+                        </Button>
+                                        :
+                                        <Button color="info" onClick={(e) => { RemoveFromCheckoutQueue(request.checkoutId) }}>
+                                            Remove From Queue
+                        </Button>
+                                    }
+                                </div>
+                        }
                     </div>
 
 

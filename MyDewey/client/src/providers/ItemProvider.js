@@ -141,9 +141,27 @@ export const ItemProvider = (props) => {
                 // }
             }));
     };
+    const RemoveFromCheckoutQueue = (checkoutId) => {
+        return getToken().then((token) =>
+            fetch(`/api/item/RemoveFromCheckoutQueue/${checkoutId}`, {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                }
+            }).then(resp => {
+                //TODO: 
+                //when api returns item as response
+                // if (resp.ok) {
+                //return resp.json();
+                // } else {
+                //     (history.push(`/unauthorized`));
+                // }
+            }));
+    };
 
     return (
-        <ItemContext.Provider value={{ items, requests, getAllItems, getUserItems, addItem, getNonUserItems, RequestCheckout, getCheckoutRequests, AddToCheckoutQueue }}>
+        <ItemContext.Provider value={{ items, requests, getAllItems, getUserItems, addItem, getNonUserItems, RequestCheckout, getCheckoutRequests, AddToCheckoutQueue, RemoveFromCheckoutQueue }}>
             {props.children}
         </ItemContext.Provider>
     );

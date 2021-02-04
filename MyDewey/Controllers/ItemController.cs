@@ -116,6 +116,18 @@ namespace MyDewey.Controllers
             //Replace the above "return OK()" with the following returne statement after making a get by id method...
             //return CreatedAtAction("Get", new { id = item.Id }, item);
         }
+        [HttpPost("RemoveFromCheckoutQueue/{checkoutId}")]
+        public IActionResult RemoveFromCheckoutQueue(int checkoutId)
+        {
+            //var currentUserProfile = GetCurrentUserProfile();
+
+            _itemRepository.RemoveFromCheckoutQueue(checkoutId);
+            //For now...
+            return Ok();
+            //TODO:
+            //Replace the above "return OK()" with the following returne statement after making a get by id method...
+            //return CreatedAtAction("Get", new { id = item.Id }, item);
+        }
 
 
         //get current user profile

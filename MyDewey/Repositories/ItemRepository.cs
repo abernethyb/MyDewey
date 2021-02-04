@@ -371,6 +371,27 @@ namespace MyDewey.Repositories
                 }
             }
         }
+
+        //methid to remove item to queue
+        public void RemoveFromCheckoutQueue(int checkoutId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        UPDATE Checkout
+                        SET QueueStartDate = NULL
+                        WHERE Id = @checkoutId;";
+
+
+                    DbUtils.AddParameter(cmd, "@checkoutId", checkoutId);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
         //method to ReturnItem
         public void Checkin(int checkoutId)
         {
