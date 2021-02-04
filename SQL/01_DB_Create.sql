@@ -77,6 +77,7 @@ CREATE TABLE [Checkout] (
   [UserProfileId] integer NOT NULL,
   [ItemId] integer NOT NULL,
   [RequestDate] datetime NOT NULL,
+  [QueueStartDate] datetime,
   [CheckoutDate] datetime,
   [DueDate] datetime,
   [CheckinDate] datetime,

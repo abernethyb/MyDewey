@@ -40,9 +40,7 @@ const UserItemList = () => {
                     <div className="items" key={item.id}>
                         {/* < Link to={`item detai page TODO`}> */}
                         <p>Name: {item.name}</p>
-                        <p>Owner: {item.ownerUserName}</p>
                         <p>Category: {item.categoryName}</p>
-                        <p>Location: {item.ownerPostalCode}</p>
                         {/* <Image fluid rounded src={sample.image} alt={sample.name}></Image> */}
 
                         {/* <ReactImageFallback
