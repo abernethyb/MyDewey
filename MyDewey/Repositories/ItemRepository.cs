@@ -305,8 +305,6 @@ namespace MyDewey.Repositories
         {
             using (var conn = Connection)
             {
-                //TODO:
-                //Assign Due Date
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
@@ -449,6 +447,8 @@ namespace MyDewey.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
+                    //TODO:
+                    //Prevent users from making dublicat requests
                     cmd.CommandText = @"SELECT c.Id,
                                         c.UserProfileId AS BorrowerUserProfileId,
                                         c.ItemId,
