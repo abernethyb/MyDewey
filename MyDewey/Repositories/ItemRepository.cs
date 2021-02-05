@@ -352,6 +352,27 @@ namespace MyDewey.Repositories
             }
         }
 
+        //method to Hide a declined checkout or Cancel a checkout request ///
+        public void HideCheckout(int checkoutId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        UPDATE Checkout
+                        SET Hidden = 1
+                        WHERE Id = @checkoutId;";
+
+
+                    DbUtils.AddParameter(cmd, "@checkoutId", checkoutId);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
         //methid to add item to queue
         public void AddToCheckoutQueue(int checkoutId)
         {
@@ -465,7 +486,7 @@ namespace MyDewey.Repositories
                                         LEFT JOIN UserProfile u ON c.UserProfileId = u.Id
                                         LEFT JOIN Item i ON c.ItemId = i.Id
                                         LEFT JOIN Category cat ON i.CategoryId = cat.Id
-                                        WHERE c.CheckoutDate is NULL AND c.Declined = 0 AND i.Available = 1 AND i.UserProfileId = @userProfileId
+                                        WHERE c.CheckoutDate is NULL AND c.Declined = 0 AND c.Hidden = 0 AND i.Available = 1 AND i.UserProfileId = @userProfileId
                                         ORDER BY c.RequestDate;";
 
                     DbUtils.AddParameter(cmd, "@userProfileId", userProfileId);

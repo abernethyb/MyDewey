@@ -8,7 +8,7 @@ import { ItemContext } from "../../providers/ItemProvider";
 const RequestList = () => {
 
 
-    const { requests, getCheckoutRequests, AddToCheckoutQueue, RemoveFromCheckoutQueue, ApproveCheckout } = useContext(ItemContext);
+    const { requests, getCheckoutRequests, AddToCheckoutQueue, RemoveFromCheckoutQueue, ApproveCheckout, DeclineCheckoutRequest } = useContext(ItemContext);
 
     const history = useHistory();
 
@@ -54,7 +54,7 @@ const RequestList = () => {
                                     <Button onClick={(e) => { ApproveCheckout(request.checkoutId, request.itemId) }}>
                                         APPROVE
                                     </Button>
-                                    <Button>
+                                    <Button onClick={(e) => { DeclineCheckoutRequest(request.checkoutId) }}>
                                         DECLINE
                                     </Button>
                                     {!request.queueStartDate ?
@@ -85,10 +85,10 @@ const RequestList = () => {
                                     {/* </Link> */}
                                     <Button onClick={(e) => { ApproveCheckout(request.checkoutId, request.itemId) }}>
                                         APPROVE
-                        </Button>
-                                    <Button>
+                                    </Button>
+                                    <Button onClick={(e) => { DeclineCheckoutRequest(request.checkoutId) }}>
                                         DECLINE
-                        </Button>
+                                    </Button>
                                     {!request.queueStartDate ?
                                         <Button color="info" onClick={(e) => { AddToCheckoutQueue(request.checkoutId) }}>
                                             Add to Queue
