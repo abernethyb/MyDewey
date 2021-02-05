@@ -8,7 +8,7 @@ import { ItemContext } from "../../providers/ItemProvider";
 const BorrowViewCheckoutList = () => {
 
 
-    const { borrowViews, GetBorrowerViewCheckout, Checkin } = useContext(ItemContext);
+    const { borrowViews, GetBorrowerViewCheckout, Checkin, HideCheckoutRequest } = useContext(ItemContext);
 
     const history = useHistory();
 
@@ -77,11 +77,11 @@ const BorrowViewCheckoutList = () => {
                                 alt={sample.name} /> */}
                                 {/* </Link> */}
                                 {borrow.declined ?
-                                    <Button>
+                                    <Button onClick={(e) => { HideCheckoutRequest(borrow.checkoutId) }}>
                                         Hide
                                     </Button>
                                     :
-                                    <Button>
+                                    <Button onClick={(e) => { HideCheckoutRequest(borrow.checkoutId) }}>
                                         Cancel Request
                                     </Button>
                                 }

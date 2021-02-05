@@ -215,6 +215,24 @@ export const ItemProvider = (props) => {
                 // }
             }));
     };
+    const HideCheckoutRequest = (checkoutId) => {
+        return getToken().then((token) =>
+            fetch(`/api/item/HideCheckoutRequest/${checkoutId}`, {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                }
+            }).then(resp => {
+                //TODO: 
+                //when api returns item as response
+                // if (resp.ok) {
+                //return resp.json();
+                // } else {
+                //     (history.push(`/unauthorized`));
+                // }
+            }));
+    };
     const Checkin = (checkoutId) => {
         return getToken().then((token) =>
             fetch(`/api/item/Checkin/${checkoutId}`, {
@@ -271,7 +289,7 @@ export const ItemProvider = (props) => {
     };
 
     return (
-        <ItemContext.Provider value={{ items, requests, borrowViews, lenderViews, getAllItems, getUserItems, addItem, getNonUserItems, RequestCheckout, getCheckoutRequests, AddToCheckoutQueue, RemoveFromCheckoutQueue, ApproveCheckout, GetBorrowerViewCheckout, GetLenderViewCheckout, Checkin, VerifyCheckin, DeclineCheckoutRequest }}>
+        <ItemContext.Provider value={{ items, requests, borrowViews, lenderViews, getAllItems, getUserItems, addItem, getNonUserItems, RequestCheckout, getCheckoutRequests, AddToCheckoutQueue, RemoveFromCheckoutQueue, ApproveCheckout, GetBorrowerViewCheckout, GetLenderViewCheckout, Checkin, VerifyCheckin, DeclineCheckoutRequest, HideCheckoutRequest }}>
             {props.children}
         </ItemContext.Provider>
     );
