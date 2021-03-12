@@ -145,7 +145,17 @@ namespace MyDewey.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT i.Id,
+                    //CTE to get user's checkout requests to ensure user is not presented with items they have requested
+                    cmd.CommandText = @"
+
+                                        WITH actuve_user_requests AS 
+                                        (
+                                        SELECT Id, UserProfileId, ItemId FROM Checkout c
+                                        WHERE c.CheckoutDate is NULL AND c.Declined = 0 AND c.Hidden = 0  AND c.UserProfileId = @userProfileId
+                                        )
+
+                                        SELECT i.Id,
+                                        ar.Id AS activeRequestId,
                                         i.UserProfileId,
                                         u.UserName AS OwnerUserName,
                                         i.CategoryId,
@@ -164,7 +174,8 @@ namespace MyDewey.Repositories
                                         FROM Item i
                                         Left Join UserProfile u ON i.UserProfileId = u.Id
                                         Left Join Category c ON i.CategoryId = c.Id
-                                        WHERE i.UserProfileId != @userProfileId AND i.Flagdelete = 0 AND i.Available = 1";
+                                        LEFT JOIN actuve_user_requests ar ON i.Id = ar.ItemId
+                                        WHERE i.UserProfileId != @userProfileId AND i.Flagdelete = 0 AND i.Available = 1 AND ar.Id is NULL";
 
                     DbUtils.AddParameter(cmd, "@userProfileId", userProfileId);
 
