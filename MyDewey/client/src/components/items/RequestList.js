@@ -8,7 +8,7 @@ import { ItemContext } from "../../providers/ItemProvider";
 const RequestList = () => {
 
 
-    const { requests, getCheckoutRequests, AddToCheckoutQueue, RemoveFromCheckoutQueue, ApproveCheckout } = useContext(ItemContext);
+    const { requests, getCheckoutRequests, AddToCheckoutQueue, RemoveFromCheckoutQueue, ApproveCheckout, DeclineCheckoutRequest } = useContext(ItemContext);
 
     const history = useHistory();
 
@@ -51,18 +51,18 @@ const RequestList = () => {
                                 fallbackImage={item.image}
                                 alt={sample.name} /> */}
                                     {/* </Link> */}
-                                    <Button onClick={(e) => { ApproveCheckout(request.checkoutId, request.itemId) }}>
+                                    <Button onClick={(e) => { e.preventDefault(); ApproveCheckout(request.checkoutId, request.itemId).then(getCheckoutRequests()) }}>
                                         APPROVE
                                     </Button>
-                                    <Button>
+                                    <Button onClick={(e) => { e.preventDefault(); DeclineCheckoutRequest(request.checkoutId).then(getCheckoutRequests()) }}>
                                         DECLINE
                                     </Button>
                                     {!request.queueStartDate ?
-                                        <Button color="info" onClick={(e) => { AddToCheckoutQueue(request.checkoutId) }}>
+                                        <Button color="info" onClick={(e) => { e.preventDefault(); AddToCheckoutQueue(request.checkoutId).then(getCheckoutRequests()) }}>
                                             Add to Queue
                                     </Button>
                                         :
-                                        <Button color="info" onClick={(e) => { RemoveFromCheckoutQueue(request.checkoutId) }}>
+                                        <Button color="info" onClick={(e) => { e.preventDefault(); RemoveFromCheckoutQueue(request.checkoutId).then(getCheckoutRequests()) }}>
                                             Remove From Queue
                                     </Button>
                                     }
@@ -85,10 +85,10 @@ const RequestList = () => {
                                     {/* </Link> */}
                                     <Button onClick={(e) => { ApproveCheckout(request.checkoutId, request.itemId) }}>
                                         APPROVE
-                        </Button>
-                                    <Button>
+                                    </Button>
+                                    <Button onClick={(e) => { DeclineCheckoutRequest(request.checkoutId) }}>
                                         DECLINE
-                        </Button>
+                                    </Button>
                                     {!request.queueStartDate ?
                                         <Button color="info" onClick={(e) => { AddToCheckoutQueue(request.checkoutId) }}>
                                             Add to Queue

@@ -16,6 +16,7 @@ namespace MyDewey.Repositories
         List<LenderCheckoutView> GetLenderViewCheckout(int userProfileId);
         List<Item> GetNonUserItems(int userProfileId);
         List<Item> GetUserItems(int userProfileId);
+        void HideCheckout(int checkoutId);
         void RemoveFromCheckoutQueue(int checkoutId);
         void RequestCheckout(int userProfileId, int itemId);
         void VerifyCheckin(int checkoutId, int itemId);

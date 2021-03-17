@@ -156,6 +156,34 @@ namespace MyDewey.Controllers
             //return CreatedAtAction("Get", new { id = item.Id }, item);
         }
 
+        //decline
+        [HttpPost("DeclineCheckoutRequest/{checkoutId}")]
+        public IActionResult DeclineCheckoutRequest(int checkoutId)
+        {
+            //var currentUserProfile = GetCurrentUserProfile();
+
+            _itemRepository.DeclineCheckout(checkoutId);
+            //For now...
+            return Ok();
+            //TODO:
+            //Replace the above "return OK()" with the following returne statement after making a get by id method...
+            //return CreatedAtAction("Get", new { id = item.Id }, item);
+        }
+
+        // hide or cancel request
+        [HttpPost("HideCheckoutRequest/{checkoutId}")]
+        public IActionResult HideCheckoutRequest(int checkoutId)
+        {
+            //var currentUserProfile = GetCurrentUserProfile();
+
+            _itemRepository.HideCheckout(checkoutId);
+            //For now...
+            return Ok();
+            //TODO:
+            //Replace the above "return OK()" with the following returne statement after making a get by id method...
+            //return CreatedAtAction("Get", new { id = item.Id }, item);
+        }
+
         [HttpPost("Checkin/{checkoutId}")]
         public IActionResult Checkin(int checkoutId)
         {

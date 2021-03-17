@@ -73,7 +73,7 @@ const LenderViewCheckoutList = () => {
                                 alt={sample.name} /> */}
                                 {/* </Link> */}
 
-                                <Button onClick={(e) => { VerifyCheckin(lend.checkoutId, lend.itemId) }}>
+                                <Button onClick={(e) => { e.preventDefault(); VerifyCheckin(lend.checkoutId, lend.itemId).then(GetLenderViewCheckout()) }}>
                                     Verify Return
                                 </Button>
                                 <Button>
