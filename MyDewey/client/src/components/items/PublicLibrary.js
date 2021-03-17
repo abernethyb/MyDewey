@@ -24,7 +24,6 @@ const ItemList = () => {
     }
 
 
-
     return (
         <>
 
@@ -41,9 +40,12 @@ const ItemList = () => {
                         <p>Owner: {item.ownerUserName}</p>
                         <p>Category: {item.categoryName}</p>
                         <p>Location: {item.ownerPostalCode}</p>
-                        <Button color="info" onClick={(e) => { RequestCheckout(item.id) }}>
+                        <Button color="info" onClick={(e) => { e.preventDefault(); RequestCheckout(item.id).then(getNonUserItems()) }}>
                             Request Checkout
                         </Button>
+                        {/* <Button color="info" onClick={handleCheckoutRequestClick(item)}>
+                            Requesttttt Checkout
+                        </Button> */}
                         {/* <Image fluid rounded src={sample.image} alt={sample.name}></Image> */}
 
                         {/* <ReactImageFallback

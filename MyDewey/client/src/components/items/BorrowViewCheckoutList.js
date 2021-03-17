@@ -51,7 +51,7 @@ const BorrowViewCheckoutList = () => {
                                 alt={sample.name} /> */}
                                 {/* </Link> */}
                                 {!borrow.checkinDate ?
-                                    <Button onClick={(e) => { Checkin(borrow.checkoutId) }}>
+                                    <Button onClick={(e) => { e.preventDefault(); Checkin(borrow.checkoutId).then(GetBorrowerViewCheckout()) }}>
                                         Return
                                 </Button>
                                     :
@@ -77,11 +77,11 @@ const BorrowViewCheckoutList = () => {
                                 alt={sample.name} /> */}
                                 {/* </Link> */}
                                 {borrow.declined ?
-                                    <Button onClick={(e) => { HideCheckoutRequest(borrow.checkoutId) }}>
+                                    <Button onClick={(e) => { e.preventDefault(); HideCheckoutRequest(borrow.checkoutId).then(GetBorrowerViewCheckout()) }}>
                                         Hide
                                     </Button>
                                     :
-                                    <Button onClick={(e) => { HideCheckoutRequest(borrow.checkoutId) }}>
+                                    <Button onClick={(e) => { e.preventDefault(); HideCheckoutRequest(borrow.checkoutId).then(GetBorrowerViewCheckout()) }}>
                                         Cancel Request
                                     </Button>
                                 }

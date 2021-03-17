@@ -51,18 +51,18 @@ const RequestList = () => {
                                 fallbackImage={item.image}
                                 alt={sample.name} /> */}
                                     {/* </Link> */}
-                                    <Button onClick={(e) => { ApproveCheckout(request.checkoutId, request.itemId) }}>
+                                    <Button onClick={(e) => { e.preventDefault(); ApproveCheckout(request.checkoutId, request.itemId).then(getCheckoutRequests()) }}>
                                         APPROVE
                                     </Button>
-                                    <Button onClick={(e) => { DeclineCheckoutRequest(request.checkoutId) }}>
+                                    <Button onClick={(e) => { e.preventDefault(); DeclineCheckoutRequest(request.checkoutId).then(getCheckoutRequests()) }}>
                                         DECLINE
                                     </Button>
                                     {!request.queueStartDate ?
-                                        <Button color="info" onClick={(e) => { AddToCheckoutQueue(request.checkoutId) }}>
+                                        <Button color="info" onClick={(e) => { e.preventDefault(); AddToCheckoutQueue(request.checkoutId).then(getCheckoutRequests()) }}>
                                             Add to Queue
                                     </Button>
                                         :
-                                        <Button color="info" onClick={(e) => { RemoveFromCheckoutQueue(request.checkoutId) }}>
+                                        <Button color="info" onClick={(e) => { e.preventDefault(); RemoveFromCheckoutQueue(request.checkoutId).then(getCheckoutRequests()) }}>
                                             Remove From Queue
                                     </Button>
                                     }
